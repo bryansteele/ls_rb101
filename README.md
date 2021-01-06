@@ -1,5 +1,5 @@
 # Launch School
-##RB101 Programming Foundations
+## RB101 Programming Foundations
 
 Practice Problem
 Various Assignments
