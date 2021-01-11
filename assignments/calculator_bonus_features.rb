@@ -52,20 +52,35 @@ def retrieve_name(language)
   name
 end
 
-# def valid_number?(num)
-#   /\d/.match(num) && /^\d*\.?\d*$/.match(num)
-# end
+def valid_number?(num)
+  /\d/.match(num) && /^\d*\.?\d*$/.match(num)
+end
 
-# def retrieve_number(number_requested)
-#   loop do
-#     prompt("What's the #{number_requested}?")
-#     number_requested = gets.chomp
-#     break if valid_number?(number_requested)
-#     prompt("Hmm.... that doesn't look like a valid number")
-#   end
+def retrieve_number(number_requested)
+  loop do
+    prompt("What's the #{number_requested}?")
+    number_requested = gets.chomp
+    break if valid_number?(number_requested)
+    prompt("Hmm.... that doesn't look like a valid number")
+  end
 
-#   number_requested
-# end
+  number_requested
+end
+
+def valid_operator?(operator)
+  %w(1 2 3 4).include?(operator)
+end
+
+def retrieve_operator(language)
+operator = ''
+  loop do
+    prompt(messages('operator_prompt', language))
+    operator = gets.chomp
+    break if valid_operator?(operator)
+    prompt(messages('invalid_operator', language))
+  end
+  operator
+end
 
 # def operation_to_message(op)
 #   case op
@@ -85,19 +100,14 @@ welcome
 language = retrieve_language
 system('clear') || system('clr')
 name = retrieve_name(language)
-
-
-# prompt("Hi #{name}!")
-
-
-
-
-
+system('clear') || system('clr')
+prompt(messages('hi', language) + " #{name}!") 
 ################################################################## Main Loop
-# loop do
-#   first_number = retrieve_number('first number')
-#   second_number = retrieve_number('second number')
+loop do
+  first_number = retrieve_number('first number')
+  second_number = retrieve_number('second number')
 
+  operation = retrieve_operator(language)
 
 
 #   operator_prompt = <<-MSG
@@ -137,6 +147,6 @@ name = retrieve_name(language)
 #   prompt("Do you want to perform another calculation? (Y to calculate again)")
 #   answer = gets().chomp()
 #   break unless answer.downcase().start_with?('y')
-# end
+end
 
 # prompt("Thank you for using Calculator --- GOODBYE!")
