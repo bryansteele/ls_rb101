@@ -6,29 +6,29 @@ def valid_number?(num)
   /\d/.match(num) && /^\d*\.?\d*$/.match(num)
 end
 
-def retrieve_number1
-  first_number = ""
+def retrieve_number(number_requested)
   loop do
-    prompt("What's the first number?")
-    first_number = gets.chomp
-
-    break if valid_number?(first_number)
+    prompt("What's the #{number_requested}?")
+    number_requested = gets.chomp
+    break if valid_number?(number_requested)
     prompt("Hmm.... that doesn't look like a valid number")
   end
-  first_number
+
+  number_requested
 end
 
-def retrieve_number2
-  second_number = ""
-  loop do
-    prompt("What's the second number?")
-    second_number = gets.chomp
+# def retrieve_number2
+#   second_number = ""
+  
+#   loop do
+#     prompt("What's the second number?")
+#     second_number = gets.chomp
+#     break if valid_number?(second_number)
+#     prompt("Hmm.... that doesn't look like a valid number")
+#   end
 
-    break if valid_number?(second_number)
-    prompt("Hmm.... that doesn't look like a valid number")
-  end
-  second_number
-end
+#   second_number
+# end
 
 
 def operation_to_message(op)
@@ -43,7 +43,7 @@ def operation_to_message(op)
     'Dividing'
   end
 end
-
+###############################################################START OF PROGRAM
 prompt("Welcome to Calculator! Enter your name:")
 
 name = nil
@@ -58,12 +58,15 @@ loop do
 end
 
 prompt("Hi #{name}!")
-######################################################################### Main Loop
-# first_number = ""
-# second_number = ""
+
+
+
+
+
+################################################################### Main Loop
 loop do
-  first_number = retrieve_number1
-  second_number = retrieve_number2
+  first_number = retrieve_number('first number')
+  second_number = retrieve_number('second number')
 
   operator_prompt = <<-MSG
     What operation would you like me to perform?
