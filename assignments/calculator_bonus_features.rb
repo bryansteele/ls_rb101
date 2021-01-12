@@ -78,37 +78,45 @@ operator = ''
     prompt(messages('operator_prompt', language))
     operator = gets.chomp
     break if valid_operator?(operator)
+    system('clear') || system('clr')
     prompt(messages('invalid_operator', language))
   end
   operator
 end
 
-def check_zero_divisor(num, op, language)
-  check_zero = false
-
-  if (/^0*$/.match(num)) && (op == '4')
-    system('clear') || system('clr')
-    prompt(messages('invalid_division', language))
-    check_zero = true
-  end
-
-  check_zero = true
+def zero_divisor_warning
+  system('clear') || system('clr')
+  prompt(messages('invalid_division', language))
 end
 
+result = nil
 def perform_calculation(num1, num2, op)
   result = case op
-           when '1'
-            num1.to_i + num2.to_i
-           when '2'
-            num1.to_i - num2.to_i
-           when '3'
-            num1.to_i * num2.to_i
-           else
-            num1.to_f / num2.to_f
+           when '1' then num1.to_i + num2.to_i
+           when '2' then num1.to_i - num2.to_i
+           when '3' then num1.to_i * num2.to_i
+           when '4'
+             if !(num2 == 0 && op == '4')
+                zero_divisor_warning 
+             else
+                num1.to_f / num2.to_f
+             end
            end
   result         
 end
-###############################################################START OF PROGRAM
+
+def display_results(calculated_results, language)
+  prompt(messages('results', language) + calculated_results.to_f.to_s)
+end
+
+def retrieve_calc_again_answer(language)
+  prompt(messages('another_calculation', language))
+  calc_again_answer = gets.chomp
+end
+
+
+
+#START of PROGRAM
 system('clear') || system('clr')
 welcome
 language = retrieve_language
@@ -116,21 +124,21 @@ system('clear') || system('clr')
 name = retrieve_name(language)
 system('clear') || system('clr')
 prompt(messages('hi', language) + " #{name}!") 
-################################################################## Main Loop
+
+#Main Loop
 loop do
   first_number = retrieve_number('first_number', language)
   second_number = retrieve_number('second_number', language)
 
   operation = retrieve_operator(language)
 
-  check_zero_divisor(second_number, operation, language)
-
   results = perform_calculation(first_number, second_number, operation)
   
-  puts "RESULTS ARE #{results}"
+  display_results(results, language)
 
-
-
+  calc_again_answer = retrieve_calc_again_answer(language)
+  break unless calc_again_answer.downcase == 'y'
 end
 
-
+system('clear') || system('clr')
+prompt(messages('goodbye', language))

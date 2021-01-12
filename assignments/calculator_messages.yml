@@ -11,7 +11,7 @@ en:
   invalid_operator: "Invalid operator! Must choose 1, 2, 3 or 4\n"
   results: "The result is: "
   invalid_division: "You chose 4) Divide. This will make an Error! You cannot divide by 0.           \n                           ↓↓↓"
-  another_calculation: "Do you want to perform another calculation? (Enter Y/y to calculate again, or another key to exit)"
+  another_calculation: "Do you want to perform another calculation? (Enter Y/y to calculate again, or any other key to exit)"
   goodbye: "Thank you for using the calculator.\n \n   GOODBYE!"
 
 ru:
