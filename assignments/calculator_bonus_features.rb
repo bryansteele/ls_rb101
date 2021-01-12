@@ -57,7 +57,7 @@ def valid_number?(num)
 end
 
 def retrieve_number(str_number, language)
-  number_requested =''
+  number_requested = ''
   loop do
     prompt(messages(str_number, language))
     number_requested = gets.chomp
@@ -73,7 +73,7 @@ def valid_operator?(num)
 end
 
 def retrieve_operator(language)
-operator = ''
+  operator = ''
   loop do
     prompt(messages('operator_prompt', language))
     operator = gets.chomp
@@ -84,26 +84,22 @@ operator = ''
   operator
 end
 
-result = nil
-def perform_calculation(num1, num2, op, language)
+def check_zero_divisor(num2, op, language)
+  if /^0*$/.match(num2) && op == '4'
+    prompt(messages('invalid_division', language))
+  else
+    false
+  end
+end
+
+def perform_calculation(num1, num2, op)
   result = case op
            when '1' then num1.to_i + num2.to_i
            when '2' then num1.to_i - num2.to_i
            when '3' then num1.to_i * num2.to_i
            when '4' then num1.to_f / num2.to_f
            end
-  result         
-end
-
-def check_zero_division(num2, op, language)
-  if num2 == 0 && op == '4'
-    zero_divisor_warning(language)
-  end
-end
-
-def zero_divisor_warning(language)
-  system('clear') || system('clr')
-  prompt(messages('invalid_division', language))
+  result
 end
 
 def display_results(calculated_results, language)
@@ -112,33 +108,24 @@ end
 
 def retrieve_calc_again_answer(language)
   prompt(messages('another_calculation', language))
-  calc_again_answer = gets.chomp
+  gets.chomp
 end
-
-
-
-#START of PROGRAM
+# START of PROGRAM
 system('clear') || system('clr')
 welcome
 language = retrieve_language
 system('clear') || system('clr')
 name = retrieve_name(language)
 system('clear') || system('clr')
-prompt(messages('hi', language) + " #{name}!") 
-
-#Main Loop
+prompt(messages('hi', language) + " #{name}!")
+# Main Loop
 loop do
   first_number = retrieve_number('first_number', language)
   second_number = retrieve_number('second_number', language)
-
   operation = retrieve_operator(language)
-
-  results = perform_calculation(first_number, second_number, operation, language)
-  
-  check_zero_division(second_number, operation, language)
-
+  results = perform_calculation(first_number, second_number, operation)
+  check_zero_divisor(second_number, operation, language)
   display_results(results, language)
-
   calc_again_answer = retrieve_calc_again_answer(language)
   break unless calc_again_answer.downcase == 'y'
 end

@@ -10,7 +10,7 @@ en:
   operator_prompt: "What operation would you like to perform?\n 1) Add\n 2) Subtract\n 3) Multiply\n 4) Divide\n-------------"
   invalid_operator: "Invalid operator! Must choose 1, 2, 3 or 4\n"
   results: "The result is: "
-  invalid_division: "You chose 4) Divide. This will make an Error! You cannot divide by 0.           \n                           ↓↓↓"
+  invalid_division: "You chose 4) Divide. This is an an Error! You cannot divide by 0.           \n                  ↓↓↓↓↓↓↓↓"
   another_calculation: "Do you want to perform another calculation? (Enter Y/y to calculate again, or any other key to exit)"
   goodbye: "Thank you for using the calculator.\n \n   GOODBYE!"
 
@@ -25,7 +25,7 @@ ru:
   invalid_number: "Хм ... это не похоже на действительное число"
   operator_prompt: "Какую операцию вы хотели бы выполнить?\n 1) добавлять\n 2) вычитать\n 3) умножать\n 4) делить\n-------------"
   invalid_operator: "неверный вариант! Нужно выбрать 1, 2, 3 или 4\n"
-  invalid_division: "Вы выбрали 4) Разделить. Ошибка! Невозможно разделить на 0.           \n                      ↓↓↓"
+  invalid_division: "Вы выбрали 4) Разделить. Ошибка! Невозможно разделить на 0.           \n              ↓↓↓↓↓↓↓↓"
   results: "Результат: "
   another_calculation: "Хотите выполнить еще один расчет? (Y/y рассчитать еще раз, или другой ключ для выхода)"
   goodbye: "Спасибо за использование калькулятора.\n \n   ДО СВИДАНИЯ!"
