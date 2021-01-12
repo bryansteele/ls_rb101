@@ -56,19 +56,20 @@ def valid_number?(num)
   /\d/.match(num) && /^\d*\.?\d*$/.match(num)
 end
 
-def retrieve_number(number_requested)
+def retrieve_number(str_number, language)
+  number_requested =''
   loop do
-    prompt("What's the #{number_requested}?")
+    prompt(messages(str_number, language))
     number_requested = gets.chomp
     break if valid_number?(number_requested)
-    prompt("Hmm.... that doesn't look like a valid number")
+    prompt(messages('invalid_number', language))
   end
 
   number_requested
 end
 
-def valid_operator?(operator)
-  %w(1 2 3 4).include?(operator)
+def valid_operator?(num)
+  %w(1 2 3 4).include?(num)
 end
 
 def retrieve_operator(language)
@@ -80,6 +81,18 @@ operator = ''
     prompt(messages('invalid_operator', language))
   end
   operator
+end
+
+def check_zero_divisor(num, op, language)
+  check_zero = false
+
+  if (/^0*$/.match(num)) && (op == '4')
+    system('clear') || system('clr')
+    prompt(messages('invalid_division', language))
+    check_zero = true
+  end
+
+  check_zero = true
 end
 
 # def operation_to_message(op)
@@ -104,49 +117,18 @@ system('clear') || system('clr')
 prompt(messages('hi', language) + " #{name}!") 
 ################################################################## Main Loop
 loop do
-  first_number = retrieve_number('first number')
-  second_number = retrieve_number('second number')
+  first_number = retrieve_number('first_number', language)
+  second_number = retrieve_number('second_number', language)
 
   operation = retrieve_operator(language)
 
+  check_zero_divisor(second_number, operation, language)
 
-#   operator_prompt = <<-MSG
-#     What operation would you like me to perform?
-#       1) add
-#       2) subtract
-#       3) multply
-#       4) divide
-#   MSG
+  # perform_calculation()
+  # display_results()
 
-#   prompt(operator_prompt)
 
-#   operator = nil
-#   loop do
-#     operator = Kernel.gets().chomp()
 
-#     if %w(1 2 3 4).include?(operator)
-#       break
-#     else
-#       prompt("Must choose 1, 2, 3 or 4")
-#     end
-#   end
-
-#   prompt("#{operation_to_message(operator)} the two numbers...")
-
-#   result = case operator
-#            when '1'
-#              first_number.to_i() + second_number.to_i()
-#            when '2'
-#              first_number.to_i() * second_number.to_i()
-#            else
-#              first_number.to_f() / second_number.to_f()
-#            end
-
-#   prompt("The answer is: #{result}")
-
-#   prompt("Do you want to perform another calculation? (Y to calculate again)")
-#   answer = gets().chomp()
-#   break unless answer.downcase().start_with?('y')
 end
 
-# prompt("Thank you for using Calculator --- GOODBYE!")
+
