@@ -84,25 +84,26 @@ operator = ''
   operator
 end
 
-def zero_divisor_warning
-  system('clear') || system('clr')
-  prompt(messages('invalid_division', language))
-end
-
 result = nil
-def perform_calculation(num1, num2, op)
+def perform_calculation(num1, num2, op, language)
   result = case op
            when '1' then num1.to_i + num2.to_i
            when '2' then num1.to_i - num2.to_i
            when '3' then num1.to_i * num2.to_i
-           when '4'
-             if !(num2 == 0 && op == '4')
-                zero_divisor_warning 
-             else
-                num1.to_f / num2.to_f
-             end
+           when '4' then num1.to_f / num2.to_f
            end
   result         
+end
+
+def check_zero_division(num2, op, language)
+  if num2 == 0 && op == '4'
+    zero_divisor_warning(language)
+  end
+end
+
+def zero_divisor_warning(language)
+  system('clear') || system('clr')
+  prompt(messages('invalid_division', language))
 end
 
 def display_results(calculated_results, language)
@@ -132,8 +133,10 @@ loop do
 
   operation = retrieve_operator(language)
 
-  results = perform_calculation(first_number, second_number, operation)
+  results = perform_calculation(first_number, second_number, operation, language)
   
+  check_zero_division(second_number, operation, language)
+
   display_results(results, language)
 
   calc_again_answer = retrieve_calc_again_answer(language)
