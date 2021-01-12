@@ -124,7 +124,7 @@ loop do
 
   check_zero_divisor(second_number, operation, language)
 
-  results = perform_calculation(first_number, second_number, operation, language)
+  # perform_calculation()
   # display_results()
 
 
