@@ -95,18 +95,19 @@ def check_zero_divisor(num, op, language)
   check_zero = true
 end
 
-# def operation_to_message(op)
-#   case op
-#   when '1'
-#     'Adding'
-#   when '2'
-#     'Subtracting'
-#   when '3'
-#     'Multiplying'
-#   else
-#     'Dividing'
-#   end
-# end
+def perform_calculation(num1, num2, op)
+  result = case op
+           when '1'
+            num1.to_i + num2.to_i
+           when '2'
+            num1.to_i - num2.to_i
+           when '3'
+            num1.to_i * num2.to_i
+           else
+            num1.to_f / num2.to_f
+           end
+  result         
+end
 ###############################################################START OF PROGRAM
 system('clear') || system('clr')
 welcome
@@ -124,8 +125,9 @@ loop do
 
   check_zero_divisor(second_number, operation, language)
 
-  results = perform_calculation(first_number, second_number, operation, language)
-  # display_results()
+  results = perform_calculation(first_number, second_number, operation)
+  
+  puts "RESULTS ARE #{results}"
 
 
 
