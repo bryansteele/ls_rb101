@@ -110,6 +110,7 @@ def retrieve_calc_again_answer(language)
   prompt(messages('another_calculation', language))
   gets.chomp
 end
+
 # START of PROGRAM
 system('clear') || system('clr')
 welcome
@@ -118,6 +119,7 @@ system('clear') || system('clr')
 name = retrieve_name(language)
 system('clear') || system('clr')
 prompt(messages('hi', language) + " #{name}!")
+
 # Main Loop
 loop do
   first_number = retrieve_number('first_number', language)
