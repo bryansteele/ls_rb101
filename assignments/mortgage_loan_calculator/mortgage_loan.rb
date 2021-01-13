@@ -83,7 +83,7 @@ end
 
 def display_goodbye(name)
   system('clear') || system('clr')
-  prompt(messages('goodbye1 ') + name)
+  prompt(messages('goodbye1') + name)
   prompt(messages('goodbye2'))
 end
 
