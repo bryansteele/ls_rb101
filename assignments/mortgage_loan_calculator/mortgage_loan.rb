@@ -61,14 +61,14 @@ end
 def retrieve_loan_duration_months
   prompt(messages('months'))
   loop do
-    loan_duration_months = gets.chomp
-    return loan_duration_months.to_f if valid_num?(loan_duration_months)
+    months = gets.chomp
+    return months.to_f if valid_num?(months)
     prompt(messages('invalid_months'))
   end
 end
 
-def calculate_payment (amount, interest_rate, months)
-  amount * (interest_rate / (1 - (1 + interest_rate) ** -months))
+def calculate_payment(amount, interest_rate, months)
+  amount * (interest_rate / (1 - (1 + interest_rate)**(-months)))
 end
 
 def result_prompt(payment)
@@ -83,7 +83,7 @@ end
 
 def display_goodbye(name)
   system('clear') || system('clr')
-  prompt(messages('goodbye1') + name)
+  prompt(messages('goodbye1') + " #{name}")
   prompt(messages('goodbye2'))
 end
 
@@ -94,14 +94,15 @@ greeting(name)
 # MAIN LOOP
 loop do
   loan_amount = retrieve_loan_amount
-  monthly_interest_rate = retrieve_apr / 100 / 12
-  loan_duration_months = retrieve_loan_duration_months
+  monthly_interest = retrieve_apr / 100 / 12
+  months = retrieve_loan_duration_months
 
-  monthly_payment = calculate_payment(loan_amount, monthly_interest_rate, loan_duration_months)
+  monthly_payment = calculate_payment(loan_amount, monthly_interest, months)
 
   result_prompt(monthly_payment)
 
   break unless another_calculation.downcase == 'y'
   system('clear') || system('clr')
 end
+
 display_goodbye(name)
