@@ -1,47 +1,105 @@
-VALID_CHOICES = %w(rock paper scissors)
+require 'yaml'
+MESSAGES = YAML.load_file('rps_msgs.yml')
+WINNING_MATCH = 5
+VALID_CHOICES = {
+  'r': 'rock',
+  'p': 'paper',
+  's': 'scissors',
+  'k': 'spock',
+  'l': 'lizard'
+}
+WINNING_VARIATIONS = {
+  'rock': ['scissors', 'lizard'],
+  'paper': ['rock', 'spock'],
+  'scissors': ['paper', 'lizard'],
+  'spock': ['rock', 'scissors'],
+  'lizard': ['paper', 'spock']
+}
+
+def clear_screen
+  system('clear') || system('clr')
+end
+
+def messages(message)
+  MESSAGES[message]
+end
 
 def prompt(message)
   puts("=> #{message}")
 end
 
-def win?(first, second)
-  (first == 'rock' && second == 'scissors') ||
-    (first == 'paper' && second == 'rock') ||
-    (first == 'scissors' && second == 'paper')
+def display_instructional_greeting
+  prompt(messages('welcome'))
+  prompt(messages('instructions'))
 end
 
-def display_result(player, computer)
-  if win?(player, computer)
-    prompt('You Won!')
-  elsif win?(computer, player)
-    prompt("Computer won!")
-  else
-    prompt("It's a tie!")
-  end
+def valid_enter_key?(key)
+  key == "\n"
 end
 
-loop do
-  choice = ''
+def prompt_user_to_begin
+  prompt(messages('enter_key'))
+
   loop do
-    prompt("Choose one: #{VALID_CHOICES.join(', ')}")
-    choice = gets.chomp
+    key = gets
+    break if valid_enter_key?(key)
+    prompt(messages('invalid_key'))
+  end
+end
 
-    if VALID_CHOICES.include?(choice)
-      break
-    else
-      prompt("That's not a valid choice.")
-    end
+def initialize_score
+  { player: 0, computer: 0 }
+end
+
+def valid_choice?(choice_received)
+  %w(r p s k l).include?(choice_received)
+end
+
+def retrieve_player_choice
+  prompt(messages('player_choice'))
+  choice = ''
+
+  loop do
+    choice = gets.chomp
+    break if valid_choice?(choice)
+    prompt(messages('invalid_choice'))
   end
 
-  computer_choice = VALID_CHOICES.sample
+  VALID_CHOICES.fetch(choice.downcase.to_sym)
+end
 
-  prompt("You chose: #{choice}; Computer chose: #{computer_choice}")
+def retrieve_computer_choice
+  VALID_CHOICES.values.sample
+end
 
-  display_result(choice, computer_choice)
+def display_choices(players_choice, computers_choice)
+  prompt("You Chose: #{players_choice.upcase}..." \
+          "I Chose: #{computers_choice.upcase}.\n")
+end
+###########################################################################   START
+clear_screen()
+display_instructional_greeting()
+prompt_user_to_begin()
+clear_screen()
+######################################################################      MAIN LOOP
+loop do
+  scoreboard = initialize_score()
+  
+  loop do
+    player_choice = retrieve_player_choice()
+    computer_choice = retrieve_computer_choice()
+    clear_screen()
+    display_choices(player_choice, computer_choice)
 
-  prompt("Do you want to play again?")
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
+    results(player_choice, computer_choice)
+
+
+
+
+    prompt("Do you want to play again?")
+    answer = gets.chomp
+    break unless answer.downcase.start_with?('y')
+  end
 end
 
 prompt('GODDBYE!')

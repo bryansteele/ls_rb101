@@ -1,0 +1,31 @@
+welcome: "Welcome to ROCK, PAPER, SCISSORS, SPOCK, LIZARD!\n \n "
+instructions: "Instructions: To play this game, we will use (r) for ROCK, (p) for PAPER, 
+(s) for SCISSORS,
+\n   (k) for SPOCK and (l) for LIZARD.\n
+\n...The first to reach 5 is the GRAND WINNER!\n
+\n"
+enter_key: "PRESS ENTER to BEGIN"
+invalid_key: "Invalid key! Please PRESS ENTER to begin."
+player_choice: "ROCK >>> PAPER >>> SCISSORS...Choose NOW!(r, p, s, k, l):"
+invalid_choice: "That's not a valid choice. Please enter r, p, s, k or l:"
+
+scissorspaper: "SCISSORS cuts PAPER!\n "
+paperrock: "PAPER covers ROCK!\n "
+rocklizard: "ROCK crushes LIZARD!\n "
+lizardspock: "LIZARD poisons SPOCK!\n "
+spockscissors: "SPOCK smashes SCISSORS!\n "
+scissorslizard: "SCISSORS decapitates LIZARD!\n "
+lizardpaper: "LIZARD eats PAPER!\n "
+paperspock: "PAPER disproves SPOCK!\n "
+spockrock: "SPOCK vaporizes ROCK!\n "
+rockscissors: "ROCK crushes SCISSORS!\n "
+
+winner: "YOU WIN!\n "
+looser: "I WIN!\n "
+tie: "WE TIED!\n "
+game_over: "GAME OVER!\n "
+player_won: "YOU ARE the GRAND WINNER! CONGRATULATIONS!\n "
+computer_won: "I AM the GRAND WINNER! Better Luck Next Time.\n \n "
+another_round: "Would you like to play another round? (Y/N)"
+invalid_answer: "Invalid! Please enter a y/n"
+goodbye: "Thank you for playing with me...GOODBYE!"
