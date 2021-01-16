@@ -10,11 +10,9 @@ def count_occurrences(vehicle_array)
     occurrences[x] = vehicle_array.count(x)
   end
 
-
-
-
-
-
+  occurrences.each do |k, v|
+    puts("#{k} => #{v}")
+  end
 end
 
 count_occurrences(vehicles)
