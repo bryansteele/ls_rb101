@@ -13,7 +13,7 @@ def count_occurrences(vehicle_array)
 
 
 
-  end
+
 
 end
 
