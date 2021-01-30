@@ -15,9 +15,14 @@
 # then return true
 # else return false
 
+# def is_odd?(num)
+#   num.abs % 2 != 0
+# end
+
 def is_odd?(num)
-  num.abs % 2 != 0 ? true : false
+  num.remainder(2) != 0
 end
+
 
 puts is_odd?(2)    # => false
 puts is_odd?(5)    # => true
