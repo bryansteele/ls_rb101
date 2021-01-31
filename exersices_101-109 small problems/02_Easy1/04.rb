@@ -10,18 +10,19 @@ vehicles = [
     'motorcycle', 'motorcycle', 'car', 'truck'
 ]
 
-def count_occurrences(array)
-  hsh = []
-  vehicles.map do |x|
-    
+def count_occurrences(vehicle_list)
+  vehicle_occurrences = {}
+  
+  vehicle_list.uniq.each do |vehicle|
+    vehicle_occurrences[vehicle] = vehicle_list.count(vehicle)
   end
 
-
-
+  vehicle_occurrences.each do |k, v|
+    puts "#{k} => #{v}"
+  end
 end
 
 count_occurrences(vehicles)
-
 
 
 # car => 4
