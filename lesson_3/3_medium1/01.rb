@@ -1,1 +1,1 @@
-10.times { |x| puts (' ' * x) + 'The Flintstones Rock!'} 
+10.times { |x| puts " " * x + 'The Flintstones Rock!' }

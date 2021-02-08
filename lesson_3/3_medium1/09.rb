@@ -8,8 +8,4 @@ end
 
 puts bar(foo)
 
-# no
-
-#  The method foo will always return 'yes'.
-#  'yes'  gets evaluated against 'no' inside the bar method and 'yes' == 'no' is false.
-
+# "no"

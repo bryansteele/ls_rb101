@@ -8,4 +8,4 @@ new_answer = mess_with_it(answer)
 
 p answer - 8
 
-# 34 --- the answer variable is passed in as an argument to the method definition and assigned to the local variable some_number. some_number is re-assigned to 50, but that does nothing to the answervariable in the outer scope. Therefore line 9 outputs the value of 42 - 8, which is 34.
+# 32, because the re-assignment inside the method definition does not change the value of the local variable in the outer scope.

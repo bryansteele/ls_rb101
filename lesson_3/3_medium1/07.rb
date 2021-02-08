@@ -15,6 +15,6 @@ end
 
 mess_with_demographics(munsters)
 
-puts munsters
+p munsters
 
-# It DID change the original data. The method definition added 42 to all of their ages and changed everyone's gender to other. All because []= is not reasigning, it is modifying the actual hash object.
+# Yes he changed some values. Spot was using []= Which is element assignment. This permanently changes the hash.

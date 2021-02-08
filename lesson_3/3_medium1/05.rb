@@ -12,5 +12,4 @@ end
 result = fib(0, 1, limit)
 puts "result is #{result}"
 
-# The limit variable is outseide the scope of the method definition and can not access the value from inside.
-#The way I fixed it, was to just add a third parameter and pass it in as an argument.
+# Because the local variable `limit` is initialized on the first line, there is no access to it from within the method definition, unless it is passed in as an argument at the method call. Ex. 
