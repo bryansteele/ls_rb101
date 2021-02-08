@@ -4,4 +4,4 @@ additional_ages = { "Marilyn" => 22, "Spot" => 237 }
 
 ages.merge!(additional_ages)
 
-puts ages
+p ages

@@ -4,5 +4,3 @@ munsters_description.swapcase!
 munsters_description.capitalize!
 munsters_description.downcase!
 munsters_description.upcase!
-
-puts munsters_description
