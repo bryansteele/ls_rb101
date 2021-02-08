@@ -3,9 +3,12 @@ numbers.uniq
 
 puts numbers
 
+=begin
 
-# 1
-# 2
-# 2
-# 3
-# --- numbers variable was not modified as a result of the uniq method. Therefore when you call puts to print out the numbers array you are also calling #to_s.
+1
+2
+2
+3
+=> nil
+
+=end
