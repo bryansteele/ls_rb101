@@ -10,7 +10,8 @@ tricky_method(my_string, my_array)
 puts "My string looks like this now: #{my_string}"
 puts "My array looks like this now: #{my_array}"
 
-# pumpkins
-# ["pumpkins", "rutabaga"]
+# puts My string looks like this now: pumpkins
+# puts My array looks like this now: ["pumpkins", "rutabaga"]
 
-# out of the 2 ruby methods inside the method definition, << is the only one that mutates the caller. Therefore, pushing the string onto the array as another element. my string outputs pumkins because it is not mutated from the reassignment inside the method definition.
+# The string was re-assigned inside the method definition and did not mutate the caller.
+# The array used `<<` which is a destructive method and mutated the caller.

@@ -71,6 +71,7 @@ end
 fun_with_ids
 
 =begin
+
 a_outer is 42 with an id of: 85 before the block.
 b_outer is forty two with an id of: 60 before the block.
 c_outer is [42] with an id of: 80 before the block.
@@ -100,4 +101,5 @@ ugh ohhhhh
 ugh ohhhhh
 ugh ohhhhh
 ugh ohhhhh
+
 =end
