@@ -4,7 +4,4 @@ end
 
 p greeting
 
-# nil
-
-# Normally an error is raised trying to reference an uninitialized variable.
-# When a variable is initialized inside of an if block, whether it is executed or not, it is initialized to nil 
+# When you initialize a local variable within an if block, even if that if block doesn’t get executed, the local variable is initialized to nil.
