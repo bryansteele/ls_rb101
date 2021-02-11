@@ -2,4 +2,6 @@
   puts num
 end
 
-# => [1, 2, 3] #reject passes in each element to the block. If the return value of the block false/nil thanthat element will be included in the new array that the method returns.
+# => [1, 2, 3]
+# Returns a new array with the elements from the original array, for which the block returns false or nil.
+# https://docs.ruby-lang.org/en/3.0.0/Array.html#method-i-reject
