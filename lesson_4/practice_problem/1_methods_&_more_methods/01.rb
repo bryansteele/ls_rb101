@@ -3,7 +3,5 @@
   'hi'
 end
 
-# => [1, 2, 3] --- #select is returning an array of all elements in the
-#                   original array, for which the block returns a truthy 
-#                   value. Here, the block will always return a truthy
-#                   value because 'hi' is the last line in the block.
+# => [1, 2, 3]
+# 'hi' is the last expresion in the block and #select only cares about truthy values returned after each iteration, since 'hi' is concidered  truthy, the value for that iteration is returned. 
