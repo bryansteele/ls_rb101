@@ -1,12 +1,11 @@
 words = "the flintstones rock"
 
-words = words.split.each do |word|
-          word.capitalize!
-        end
+def titleize(string)
+  titleized_string = string.split(' ').map! { |word| word.capitalize }
+  titleized_string.join(' ')
+end
 
-words = words.join(' ')
-
-puts words
+puts titleize(words)
 
 
 # words.split.map { |word| word.capitalize }.join(' ')

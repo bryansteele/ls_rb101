@@ -1,7 +1,7 @@
 flintstones = %w(Fred Barney Wilma Betty BamBam Pebbles)
 
-flintstones.map! do |name|
-  name[0,3]
-end
+flintstones.map! { |name| name.slice(0..2) }
 
 p flintstones
+
+# flintstones.map! { |name| name[0,3] }
