@@ -1,3 +1,4 @@
-['ant', 'bear', 'caterpillar'].pop.size
+['ant', 'bear', 'caterpillar'].pop.
 
-#  => 11 --- Array#pop permenantly removes the last element from the array. Returning the removed element ( here, it would be "caterpillar"). Because we have the #size method chained onto the return value of #pop, We get a return value of 11, which is the size/length of the string.
+# => 11
+# pop is called on the array and removes the value of the last index. It returns that value. Here, size is chained to the pop method, which will return the number of characters in the string that pop returns.

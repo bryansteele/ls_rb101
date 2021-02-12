@@ -3,8 +3,15 @@
   num.odd?
 end
 
-# The block's return value here is the boolean true --- The return value of the block is determined by the return value of the last expression within the block. 
+=begin
 
-# Array#any? retruns true if the block EVER returns a value other than false or nil. Since the block returned true on the first iteration, the #any? method STOPS iterating and returns true.
+The block's return value is a boolean at the end of each iteration, because that's what the method odd? returns. If it's an odd integer, then it returns true, of false if it's no odd.
 
-# puts num is only invoked one time inside the block for the first element of the array.
+The any? method outputs & returns:
+
+1
+=> true
+
+any? returns true if any element of self meets a given criterion. Since the first iteration met the criterion, it returned true and stops the iterations as it doesn't need to go any further.
+
+=end

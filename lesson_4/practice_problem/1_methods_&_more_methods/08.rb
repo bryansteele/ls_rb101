@@ -1,4 +1,12 @@
 arr = [1, 2, 3, 4, 5]
 arr.take(2)
 
-# => [1, 2] --- Enumerable#take returns a new array with elements selected from the front of original array. Total number of elements seleced are passed in as an argument.
+
+=begin
+
+=> [1, 2]
+
+According to https://docs.ruby-lang.org/en/3.0.0/Array.html#method-i-take
+#take returns a new array with the first, given number of elements of self.
+It does not modify the caller.
+=end

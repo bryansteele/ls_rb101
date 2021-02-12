@@ -6,4 +6,8 @@
   end
 end
 
-# => [1, nil, nil] --- Because the puts is invoked on the last line of the if statement, that will return nil.Therefore, 1st iteration if went to the else and returned num which is 1. the next 2 iterations the puts method is the evaluation, so nil is returned 2 times.
+=begin
+
+=> [1, nil, nil]
+Becuase on the first iteration, the if statement evaluated the else: which returns the num, 1.
+The other two iterations evaluate the if condition to true therefore the puts num is executed and nil is retured.

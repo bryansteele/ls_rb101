@@ -4,4 +4,15 @@
   end
 end
 
-# => [nil, "bear"] --- #map always returns an array. Here the condition in the block evaluated to nil because that is what the if statement returns if the none of the conditions evaluate to a true, therefore returned nil on the first iteration and on the second iteration the condition evaluated to a truthy value, therefore the value is returned.
+=begin
+
+=> {nil, bear}
+
+map always return a new array.
+The if condition eveluates to true  on the second iteration. Which means the first element is false and the value isn't returned.
+
+when an if statement has no conditions that evaluate to true, it returns nil.
+
+Therefore we see nil on the first iteration.
+
+=end
