@@ -13,7 +13,7 @@ sq_meters = sq_feet * SQFEET_TO_SQMETER
 sq_inches = sq_feet * SQINCHES_TO_SQFEET
 sq_centimeters = sq_inches * SQINCHES_TO_SQCENT
 
-puts "=> The area of the room is #{sq_feet.round(2)} sq feet \
+puts "📏 The area of the room is #{sq_feet.round(2)} sq feet \
 - (#{sq_meters.round(2)} sq meters) \n
-=> #{sq_inches.round(2)} sq inches \n
-=> #{sq_centimeters.round(2)} sq centimeters"
+📏 #{sq_inches.round(2)} sq inches \n
+📏 #{sq_centimeters.round(2)} sq centimeters"
