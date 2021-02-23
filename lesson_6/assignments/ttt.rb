@@ -77,7 +77,7 @@ def detect_winner(brd)
 
   nil
 end
-
+# #########################################################################
 loop do
   board = initialize_board
 
