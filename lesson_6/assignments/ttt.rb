@@ -7,13 +7,17 @@ INITIAL_MARKER = ' '
 PLAYER_MARKER = 'X'
 COMPUTER_MARKER = 'O'
 
+def clear
+  system('clear') || system('clr')
+end
+
 def prompt(msg)
   puts "=> #{msg}"
 end
 
 # rubocop:disable Metrics/AbcSize
 def display_board(brd)
-  system('clear') || system('clr')
+  clear
   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
   puts ""
   puts "     |     |"
