@@ -13,8 +13,8 @@ end
 
 # rubocop:disable Metrics/AbcSize
 def display_board(brd)
-  system `clear`
-  puts "You're a #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
+  system('clear') || system('clr')
+  puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
   puts ""
   puts "     |     |"
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
