@@ -18,15 +18,15 @@ def display_board(brd)
   puts ""
   puts "     |     |"
   puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
-  puts "     |     |"
+  puts "    1|    2|    3"
   puts "-----+-----+-----"
   puts "     |     |"
   puts "  #{brd[4]}  |  #{brd[5]}  |  #{brd[6]}"
-  puts "     |     |"
+  puts "    4|    5|    6"
   puts "-----+-----+-----"
   puts "     |     |"
   puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
-  puts "     |     |"
+  puts "    7|    8|    9"
   puts ""
 end
 # rubocop:enable Metrics/AbcSize
