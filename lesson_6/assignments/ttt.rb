@@ -4,7 +4,7 @@ WINNING_LINES = [
   [1, 5, 9], [3, 5, 7]
 ]
 INITIAL_MARKER = ' '
-PLAYER_MARKER = 'X'
+PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
 
 def clear
@@ -20,17 +20,23 @@ def display_board(brd)
   clear
   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
   puts ""
-  puts "     |     |"
-  puts "  #{brd[1]}  |  #{brd[2]}  |  #{brd[3]}"
-  puts "    1|    2|    3"
-  puts "-----+-----+-----"
-  puts "     |     |"
-  puts "  #{brd[4]}  |  #{brd[5]}  |  #{brd[6]}"
-  puts "    4|    5|    6"
-  puts "-----+-----+-----"
-  puts "     |     |"
-  puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
-  puts "    7|    8|    9"
+  puts "           |           |"
+  puts "           |           |"
+  puts "     #{brd[1]}     |     #{brd[2]}     |     #{brd[3]}"
+  puts "           |           |"
+  puts "          𝟙|          𝟚|          𝟛"
+  puts "-----------+-----------+-----------"
+  puts "           |           |"
+  puts "           |           |"
+  puts "     #{brd[4]}     |     #{brd[5]}     |     #{brd[6]}"
+  puts "           |           |"
+  puts "          𝟜|          𝟝|          𝟞"
+  puts "-----------+-----------+-----------"
+  puts "           |           |"
+  puts "           |           |"
+  puts "     #{brd[7]}     |     #{brd[8]}     |     #{brd[9]}"
+  puts "           |           |"
+  puts "          𝟟|          𝟠|          𝟡"
   puts ""
 end
 # rubocop:enable Metrics/AbcSize
@@ -45,10 +51,21 @@ def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
+def joinor(arr, delimiter=', ', word='or')
+  case arr.size
+  when 0 then ''
+  when 1 then arr.first
+  when 2 then arr.join(" #{word} ")
+  else
+    arr[-1] = "#{word} #{arr.last}"
+    arr.join(delimiter)
+  end
+end
+
 def player_places_piece!(brd)
   square = ''
   loop do
-    prompt "Choose a square (#{empty_squares(brd).join(', ')}):"
+    prompt "Choose a square #{joinor(empty_squares(brd))}"
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice."
