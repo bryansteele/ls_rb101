@@ -15,7 +15,7 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-# rubocop:disable Metrics/AbcSize
+# rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_board(brd)
   clear
   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
@@ -39,7 +39,7 @@ def display_board(brd)
   puts "          𝟟|          𝟠|          𝟡"
   puts ""
 end
-# rubocop:enable Metrics/AbcSize
+# rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def initialize_board
   new_board = {}
