@@ -1,0 +1,5 @@
+welcome: "Welcome to Tic-Tac-Toe!\n\n"
+instructions: "Instructions: To play this game, we will use........\n
+\n...The first to reach 5 is the GRAND WINNER!\n
+\n"
+# choose_square: "Choose a square"

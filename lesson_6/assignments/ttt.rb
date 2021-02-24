@@ -1,14 +1,22 @@
+require 'yaml'
+
+MESSAGES = YAML.load_file('ttt_msgs.yml')
 WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9],
   [1, 4, 7], [2, 5, 8], [3, 6, 9],
   [1, 5, 9], [3, 5, 7]
 ]
+WINNING_MATCH = 5
 INITIAL_MARKER = ' '
 PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
 
 def clear
   system('clear') || system('clr')
+end
+
+def messages(msg)
+  MESSAGES[msg]
 end
 
 def prompt(msg)
