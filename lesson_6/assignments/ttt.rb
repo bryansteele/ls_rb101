@@ -1,6 +1,6 @@
-require 'yaml'
+# require 'yaml'
 
-MESSAGES = YAML.load_file('ttt_msgs.yml')
+# MESSAGES = YAML.load_file('ttt_msgs.yml')
 WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9],
   [1, 4, 7], [2, 5, 8], [3, 6, 9],
@@ -11,21 +11,33 @@ INITIAL_MARKER = ' '
 PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
 
-def clear
+def clear_screen
   system('clear') || system('clr')
 end
 
-def messages(msg)
-  MESSAGES[msg]
-end
+# def messages(msg)
+#   MESSAGES[msg]
+# end
 
 def prompt(msg)
   puts "=> #{msg}"
 end
 
+def display_instructional_greeting
+  clear_screen
+  puts <<-MSG
+  → Welcome to TIC-TAC-TOE!
+
+  • First one to get 3 in a row wins the round.
+  • First one to win 5 rounds is the GRAND CHAMPION!!!
+
+  → Please press |ENTER ⏎ | to begin.
+
+  MSG
+end
+
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_board(brd)
-  clear
   puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
   puts ""
   puts "           |           |"
@@ -107,30 +119,34 @@ def detect_winner(brd)
   nil
 end
 # #########################################################################
-loop do
-  board = initialize_board
+clear_screen
+display_instructional_greeting
 
-  loop do
-    display_board(board)
+# loop do
+#   board = initialize_board
 
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+  # loop do
+    
+  #   display_board(board)
 
-    computer_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-  end
+  #   player_places_piece!(board)
+  #   break if someone_won?(board) || board_full?(board)
 
-  display_board(board)
+  #   computer_places_piece!(board)
+  #   break if someone_won?(board) || board_full?(board)
+  # end
 
-  if someone_won?(board)
-    prompt "#{detect_winner(board)} won!"
-  else
-    prompt "It's a tie!"
-  end
+  # display_board(board)
 
-  prompt "Play again? (y or n)"
-  answer = gets.chomp
-  break unless answer.downcase.start_with?('y')
-end
+  # if someone_won?(board)
+  #   prompt "#{detect_winner(board)} won!"
+  # else
+  #   prompt "It's a tie!"
+  # end
 
-prompt "Thanks for playing Tic Tac Toe! GOOD BYE!"
+  # prompt "Play again? (y or n)"
+  # answer = gets.chomp
+  # break unless answer.downcase.start_with?('y')
+# end
+
+# prompt "Thanks for playing Tic Tac Toe! GOOD BYE!"
