@@ -20,43 +20,62 @@ end
 # end
 
 def prompt(msg)
-  puts "=> #{msg}"
+  puts "➣  #{msg}"
 end
 
 def display_instructional_greeting
   clear_screen
   puts <<-MSG
-  → Welcome to TIC-TAC-TOE!
+  ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
+  ➣  Welcome to TIC-TAC-TOE!
 
-  • First one to get 3 in a row wins the round.
-  • First one to win 5 rounds is the GRAND CHAMPION!!!
+    • First one to get 3 in a row wins the round.
+    • First one to win 5 rounds is the GRAND CHAMPION!!!
 
-  → Please press |ENTER ⏎ | to begin.
-
+  ➣  Please press |ENTER ⏎ | to begin.
+  ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
   MSG
+end
+
+def valid_enter_key?(key)
+    key == "\n"
+end
+
+def enter_to_begin
+  loop do
+    key = gets
+    break if valid_enter_key?(key)
+    prompt "INVALID KEY! Please press |ENTER ⏎ | to begin."
+  end
+end
+
+def initialize_score
+  { player: 0, computer: 0}
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_board(brd)
-  puts "You're #{PLAYER_MARKER}. Computer is #{COMPUTER_MARKER}."
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "🔹You're: #{PLAYER_MARKER}   🔸Computer is: #{COMPUTER_MARKER}".center(44)
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts ""
-  puts "           |           |"
-  puts "           |           |"
-  puts "     #{brd[1]}     |     #{brd[2]}     |     #{brd[3]}"
-  puts "           |           |"
-  puts "          𝟙|          𝟚|          𝟛"
-  puts "-----------+-----------+-----------"
-  puts "           |           |"
-  puts "           |           |"
-  puts "     #{brd[4]}     |     #{brd[5]}     |     #{brd[6]}"
-  puts "           |           |"
-  puts "          𝟜|          𝟝|          𝟞"
-  puts "-----------+-----------+-----------"
-  puts "           |           |"
-  puts "           |           |"
-  puts "     #{brd[7]}     |     #{brd[8]}     |     #{brd[9]}"
-  puts "           |           |"
-  puts "          𝟟|          𝟠|          𝟡"
+  puts "                 |           |"
+  puts "                 |           |"
+  puts "           #{brd[1]}     |     #{brd[2]}     |     #{brd[3]}"
+  puts "                 |           |"
+  puts "                𝟙|          𝟚|          𝟛"
+  puts "      -----------+-----------+-----------"
+  puts "                 |           |"
+  puts "                 |           |"
+  puts "           #{brd[4]}     |     #{brd[5]}     |     #{brd[6]}"
+  puts "                 |           |"
+  puts "                𝟜|          𝟝|          𝟞"
+  puts "      -----------+-----------+-----------"
+  puts "                 |           |"
+  puts "                 |           |"
+  puts "           #{brd[7]}     |     #{brd[8]}     |     #{brd[9]}"
+  puts "                 |           |"
+  puts "                𝟟|          𝟠|          𝟡"
   puts ""
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
@@ -119,16 +138,22 @@ def detect_winner(brd)
   nil
 end
 # #########################################################################
+# BEGINNING
 clear_screen
 display_instructional_greeting
+enter_to_begin
+clear_screen
 
-# loop do
-#   board = initialize_board
-
+##########################################################################
+# MAIN LOOP
+loop do
+  scoreboard = initialize_score
+  board = initialize_board
+  
   # loop do
     
-  #   display_board(board)
-
+    display_board(board)
+    break
   #   player_places_piece!(board)
   #   break if someone_won?(board) || board_full?(board)
 
@@ -147,6 +172,6 @@ display_instructional_greeting
   # prompt "Play again? (y or n)"
   # answer = gets.chomp
   # break unless answer.downcase.start_with?('y')
-# end
+end
 
 # prompt "Thanks for playing Tic Tac Toe! GOOD BYE!"
