@@ -27,12 +27,12 @@ def display_instructional_greeting
   clear_screen
   puts <<-MSG
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-  ➣  Welcome to TIC-TAC-TOE!
+              ➣  Welcome to TIC-TAC-TOE!
 
     • First one to get 3 in a row wins the round.
     • First one to win 5 rounds is the GRAND CHAMPION!!!
-
-  ➣  Please press |ENTER ⏎ | to begin.
+  ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
+          ➣  Please press |ENTER ⏎ | to begin.
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
   MSG
 end
@@ -41,11 +41,27 @@ def valid_enter_key?(key)
     key == "\n"
 end
 
-def enter_to_begin
+def exit_game?(str)
+  str << 'YES'
+end
+
+def enter_to_begin(quit_str)
+  counter = 0
   loop do
     key = gets
     break if valid_enter_key?(key)
-    prompt "INVALID KEY! Please press |ENTER ⏎ | to begin."
+    clear_screen
+    
+    if counter <= 1
+      prompt "INVALID KEY! Please press |ENTER ⏎ | to begin."
+    else
+      prompt "EXITING in 2 seconds."
+      sleep(2)
+      exit_game?(quit_str)
+      break
+    end
+      
+    counter += 1
   end
 end
 
@@ -54,7 +70,7 @@ def initialize_score
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-def display_board(brd)
+def display_game_board(brd)
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts "🔹You're: #{PLAYER_MARKER}   🔸Computer is: #{COMPUTER_MARKER}".center(44)
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
@@ -80,7 +96,7 @@ def display_board(brd)
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-def initialize_board
+def initialize_game_board
   new_board = {}
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
@@ -139,20 +155,20 @@ def detect_winner(brd)
 end
 # #########################################################################
 # BEGINNING
+quit_str = ''
 clear_screen
 display_instructional_greeting
-enter_to_begin
+enter_to_begin(quit_str)
 clear_screen
 
 ##########################################################################
 # MAIN LOOP
-loop do
+while quit_str == '' do
   scoreboard = initialize_score
-  board = initialize_board
+  game_board = initialize_game_board
   
   # loop do
-    
-    display_board(board)
+    display_game_board(game_board)
     break
   #   player_places_piece!(board)
   #   break if someone_won?(board) || board_full?(board)
@@ -167,11 +183,11 @@ loop do
   #   prompt "#{detect_winner(board)} won!"
   # else
   #   prompt "It's a tie!"
-  # end
+
 
   # prompt "Play again? (y or n)"
   # answer = gets.chomp
   # break unless answer.downcase.start_with?('y')
 end
 
-# prompt "Thanks for playing Tic Tac Toe! GOOD BYE!"
+prompt "GOOD BYE!"
