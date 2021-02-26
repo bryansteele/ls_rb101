@@ -31,6 +31,9 @@ def display_instructional_greeting
 
     • First one to get 3 in a row wins the round.
     • First one to win 5 rounds is the GRAND CHAMPION!!!
+
+          ➣ You are: 𝙓     The Computer is: O
+
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
           ➣  Please press |ENTER ⏎ | to begin.
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
@@ -69,6 +72,12 @@ def initialize_score
   { player: 0, computer: 0}
 end
 
+def initialize_game_board
+  new_board = {}
+  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
+  new_board
+end
+
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_game_board(brd)
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
@@ -95,12 +104,6 @@ def display_game_board(brd)
   puts ""
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
-
-def initialize_game_board
-  new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
-  new_board
-end
 
 def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
@@ -163,7 +166,7 @@ clear_screen
 
 ##########################################################################
 # MAIN LOOP
-while quit_str == '' do
+while quit_str == ''
   scoreboard = initialize_score
   game_board = initialize_game_board
   
