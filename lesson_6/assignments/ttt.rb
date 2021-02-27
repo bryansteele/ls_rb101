@@ -31,7 +31,7 @@ def display_instructional_greeting
     • First one to get 3 in a row wins the round.
     • First one to win 5 rounds is the GRAND CHAMPION!!!
 
-          ➣ You are: 𝙓     The Computer is: O
+              ➣  You are: 𝙓     I am: O
 
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
           ➣  Please press |ENTER ⏎ | to begin.
@@ -75,7 +75,7 @@ def first_player_prompt
   sleep(1)
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  prompt "You or the computer? ENTER (C)omputer or (P)layer:"
+  prompt "You or the Me? ENTER (C)omputer or (P)layer:"
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
@@ -96,8 +96,6 @@ def retreive_first_player
   answer
 end
 
-
-
 def initialize_score
   { player: 0, computer: 0}
 end
@@ -112,7 +110,7 @@ end
 def display_game_board(brd)
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  puts "🔹You are: #{PLAYER_MARKER}    🔸Computer is: #{COMPUTER_MARKER}".center(44)
+  puts "🔹You are: #{PLAYER_MARKER}   🔸I am: #{COMPUTER_MARKER}".center(44)
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts ""
   puts "                 |           |"
@@ -134,6 +132,8 @@ def display_game_board(brd)
   puts "               𝟟.|         𝟠.|         𝟡."
   puts ""
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  # puts "YOURE SCORE: #{scores[:player]}     My SCORE: #{scores[:computer]}"
+  # puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
@@ -160,10 +160,10 @@ end
 #   end
 # end
 
-def player_places_piece!(brd)
+def player_turn!(brd)
   square = ''
   loop do
-    prompt "Choose a square #{joinor(empty_squares(brd))}"
+    puts "🔷 Choose a square #{joinor(empty_squares(brd))} 🔶"
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice."
@@ -172,7 +172,7 @@ def player_places_piece!(brd)
   brd[square] = PLAYER_MARKER
 end
 
-def computer_places_piece!(brd)
+def computer_turn!(brd)
   square = empty_squares(brd).sample
   brd[square] = COMPUTER_MARKER
 end
@@ -208,21 +208,24 @@ clear_screen
 # MAIN LOOP
 while quit_str == ''
   scoreboard = initialize_score
-  game_board = initialize_game_board
   first_player = retreive_first_player
+  
+  # loop do
+  game_board = initialize_game_board
   display_game_board(game_board)
-    break
-    player_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
+  player_turn!(game_board)
+  break if someone_won?(game_board) || board_full?(game_board)
 
-    computer_places_piece!(board)
-    break if someone_won?(board) || board_full?(board)
-
-
+  computer_turn!(game_board)
+  break if someone_won?(game_board) || board_full?(game_board)
   display_game_board(game_board)
+
+
+
 
   if someone_won?(game_board)
-    prompt "#{detect_winner(board)} won!"
+    prompt "#{detect_winner(game_board)} won!"
+    # AND INCREMNT SCORE THEN DISPLAY SCORE
   else
     prompt "It's a tie!"
   end
