@@ -93,6 +93,8 @@ def retreive_first_player
   answer
 end
 
+
+
 def initialize_score
   { player: 0, computer: 0}
 end
@@ -147,6 +149,14 @@ def joinor(arr, delimiter=', ', word='or')
   end
 end
 
+# def place_piece!(brd, player)
+#   if player == "player"
+#     player_places_piece!(brd)
+#   else
+#     computer_places_piece!(brd)
+#   end
+# end
+
 def player_places_piece!(brd)
   square = ''
   loop do
@@ -196,31 +206,26 @@ clear_screen
 while quit_str == '' do
   scoreboard = initialize_score
   game_board = initialize_game_board
-  
-  # loop do
-    first_player = retreive_first_player
-  
-  
-    display_game_board(game_board)
+  first_player = retreive_first_player
+  display_game_board(game_board)
     break
-  #   player_places_piece!(board)
-  #   break if someone_won?(board) || board_full?(board)
+    player_places_piece!(board)
+    break if someone_won?(board) || board_full?(board)
 
-  #   computer_places_piece!(board)
-  #   break if someone_won?(board) || board_full?(board)
-  # end
-
-  # display_board(board)
-
-  # if someone_won?(board)
-  #   prompt "#{detect_winner(board)} won!"
-  # else
-  #   prompt "It's a tie!"
+    computer_places_piece!(board)
+    break if someone_won?(board) || board_full?(board)
 
 
-  # prompt "Play again? (y or n)"
-  # answer = gets.chomp
-  # break unless answer.downcase.start_with?('y')
+  display_game_board(game_board)
+
+  if someone_won?(game_board)
+    prompt "#{detect_winner(board)} won!"
+  else
+    prompt "It's a tie!"
+  end
+
+  prompt "Play again? (y or n)"
+  answer = gets.chomp
+  break unless answer.downcase.start_with?('y')
 end
-
-# prompt "GOOD BYE!"
+prompt "GOOD BYE!"
