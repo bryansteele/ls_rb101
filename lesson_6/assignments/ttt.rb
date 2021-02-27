@@ -65,6 +65,33 @@ def enter_to_begin(quit_str)
   end
 end
 
+def first_player_prompt
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  prompt "Who goes first?"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  sleep(2)
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  prompt "You or the computer? ENTER (C)omputer or (P)layer:"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+
+  retreive_first_player(gets.chomp)
+end
+
+def valid_first_player?(choice)
+  %w(c p).include?(choice.downcase)
+end
+
+def retreive_first_player(answer)
+  loop do
+  break if answer == valid_first_player?(answer)
+  puts "Invalid Input! Please ENTER C or P"
+  end
+
+  answer
+end
+
 def initialize_score
   { player: 0, computer: 0}
 end
@@ -168,7 +195,11 @@ while quit_str == '' do
   game_board = initialize_game_board
   
   # loop do
-    display_game_board(game_board)
+    first_player_prompt
+    first_player = retreive_first_player
+  
+    p first_player
+    # display_game_board(game_board)
     break
   #   player_places_piece!(board)
   #   break if someone_won?(board) || board_full?(board)
@@ -190,4 +221,4 @@ while quit_str == '' do
   # break unless answer.downcase.start_with?('y')
 end
 
-prompt "GOOD BYE!"
+# prompt "GOOD BYE!"
