@@ -2,9 +2,8 @@
 
 # MESSAGES = YAML.load_file('ttt_msgs.yml')
 WINNING_LINES = [
-  [1, 2, 3], [4, 5, 6], [7, 8, 9],
-  [1, 4, 7], [2, 5, 8], [3, 6, 9],
-  [1, 5, 9], [3, 5, 7]
+  [1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
+  [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
 ]
 WINNING_MATCH = 5
 INITIAL_MARKER = ' '
@@ -75,18 +74,20 @@ def first_player_prompt
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   prompt "You or the computer? ENTER (C)omputer or (P)layer:"
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-
-  retreive_first_player(gets.chomp)
 end
 
 def valid_first_player?(choice)
   %w(c p).include?(choice.downcase)
 end
 
-def retreive_first_player(answer)
+def retreive_first_player
+  answer = ''
+  first_player_prompt
+  
   loop do
-  break if answer == valid_first_player?(answer)
-  puts "Invalid Input! Please ENTER C or P"
+    answer = gets.chomp
+    break if valid_first_player?(answer)
+    puts "Invalid Input! Please ENTER 'C' or 'P'"
   end
 
   answer
@@ -195,7 +196,6 @@ while quit_str == '' do
   game_board = initialize_game_board
   
   # loop do
-    first_player_prompt
     first_player = retreive_first_player
   
     p first_player
