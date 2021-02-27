@@ -2,9 +2,8 @@
 
 # MESSAGES = YAML.load_file('ttt_msgs.yml')
 WINNING_LINES = [
-  [1, 2, 3], [4, 5, 6], [7, 8, 9],
-  [1, 4, 7], [2, 5, 8], [3, 6, 9],
-  [1, 5, 9], [3, 5, 7]
+  [1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
+  [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
 ]
 WINNING_MATCH = 5
 INITIAL_MARKER = ' '
@@ -68,6 +67,37 @@ def enter_to_begin(quit_str)
   end
 end
 
+def first_player_prompt
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  prompt "Who goes first?"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  sleep(1)
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  prompt "You or the computer? ENTER (C)omputer or (P)layer:"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+end
+
+def valid_first_player?(choice)
+  %w(c p).include?(choice.downcase)
+end
+
+def retreive_first_player
+  answer = ''
+  first_player_prompt
+  
+  loop do
+    answer = gets.chomp
+    break if valid_first_player?(answer)
+    puts "Invalid Input! Please ENTER 'C' or 'P'"
+  end
+
+  answer
+end
+
+
+
 def initialize_score
   { player: 0, computer: 0}
 end
@@ -80,28 +110,30 @@ end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_game_board(brd)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  puts "🔹You're: #{PLAYER_MARKER}   🔸Computer is: #{COMPUTER_MARKER}".center(44)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "🔹You are: #{PLAYER_MARKER}    🔸Computer is: #{COMPUTER_MARKER}".center(44)
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts ""
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[1]}     |     #{brd[2]}     |     #{brd[3]}"
   puts "                 |           |"
-  puts "                𝟙|          𝟚|          𝟛"
+  puts "               𝟙.|         𝟚.|         𝟛."
   puts "      -----------+-----------+-----------"
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[4]}     |     #{brd[5]}     |     #{brd[6]}"
   puts "                 |           |"
-  puts "                𝟜|          𝟝|          𝟞"
+  puts "               𝟜.|         𝟝.|         𝟞."
   puts "      -----------+-----------+-----------"
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[7]}     |     #{brd[8]}     |     #{brd[9]}"
   puts "                 |           |"
-  puts "                𝟟|          𝟠|          𝟡"
+  puts "               𝟟.|         𝟠.|         𝟡."
   puts ""
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
@@ -119,6 +151,14 @@ def joinor(arr, delimiter=', ', word='or')
     arr.join(delimiter)
   end
 end
+
+# def place_piece!(brd, player)
+#   if player == "player"
+#     player_places_piece!(brd)
+#   else
+#     computer_places_piece!(brd)
+#   end
+# end
 
 def player_places_piece!(brd)
   square = ''
@@ -169,28 +209,26 @@ clear_screen
 while quit_str == ''
   scoreboard = initialize_score
   game_board = initialize_game_board
-  
-  # loop do
-    display_game_board(game_board)
+  first_player = retreive_first_player
+  display_game_board(game_board)
     break
-  #   player_places_piece!(board)
-  #   break if someone_won?(board) || board_full?(board)
+    player_places_piece!(board)
+    break if someone_won?(board) || board_full?(board)
 
-  #   computer_places_piece!(board)
-  #   break if someone_won?(board) || board_full?(board)
-  # end
-
-  # display_board(board)
-
-  # if someone_won?(board)
-  #   prompt "#{detect_winner(board)} won!"
-  # else
-  #   prompt "It's a tie!"
+    computer_places_piece!(board)
+    break if someone_won?(board) || board_full?(board)
 
 
-  # prompt "Play again? (y or n)"
-  # answer = gets.chomp
-  # break unless answer.downcase.start_with?('y')
+  display_game_board(game_board)
+
+  if someone_won?(game_board)
+    prompt "#{detect_winner(board)} won!"
+  else
+    prompt "It's a tie!"
+  end
+
+  prompt "Play again? (y or n)"
+  answer = gets.chomp
+  break unless answer.downcase.start_with?('y')
 end
-
 prompt "GOOD BYE!"
