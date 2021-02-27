@@ -100,14 +100,14 @@ def initialize_score
   { player: 0, computer: 0}
 end
 
-def initialize_game_board
+def initialize_gameboard
   new_board = {}
   (1..9).each { |num| new_board[num] = INITIAL_MARKER }
   new_board
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
-def display_game_board(brd)
+def display_gameboard(brd)
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts "🔹You are: #{PLAYER_MARKER}   🔸I am: #{COMPUTER_MARKER}".center(44)
@@ -181,9 +181,14 @@ def board_full?(brd)
   empty_squares(brd).empty?
 end
 
-def someone_won?(brd)
-  !!detect_winner(brd)
-end
+# def valid_win?(brd)
+#   if !!detect_winner(brd)
+#     prompt "#{detect_winner(gameboard)} won!"
+#   else
+#     prompt "It's a tie!"
+#   end
+
+# end
 
 def detect_winner(brd)
   WINNING_LINES.each do |line|
@@ -211,24 +216,20 @@ while quit_str == ''
   first_player = retreive_first_player
   
   # loop do
-  game_board = initialize_game_board
-  display_game_board(game_board)
-  player_turn!(game_board)
-  break if someone_won?(game_board) || board_full?(game_board)
+  gameboard = initialize_gameboard
+  display_gameboard(gameboard)
+  player_turn!(gameboard)
+  break if someone_won?(gameboard) || board_full?(gameboard)
 
-  computer_turn!(game_board)
-  break if someone_won?(game_board) || board_full?(game_board)
-  display_game_board(game_board)
+  computer_turn!(gameboard)
+  break if someone_won?(gameboard) || board_full?(gameboard)
+  display_gameboard(gameboard)
 
+  # winner_of_round = valid_win?(gameboard)
+  # display_winner_of_round(winner_of_round)
+  # increment_score(winner_of_round, scoreboard)
+  # isplay_incrementing_score(scoreboard)
 
-
-
-  if someone_won?(game_board)
-    prompt "#{detect_winner(game_board)} won!"
-    # AND INCREMNT SCORE THEN DISPLAY SCORE
-  else
-    prompt "It's a tie!"
-  end
 
   prompt "Play again? (y or n)"
   answer = gets.chomp
