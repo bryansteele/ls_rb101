@@ -69,7 +69,7 @@ def first_player_prompt
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   prompt "Who goes first?"
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  sleep(2)
+  sleep(1)
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   prompt "You or the computer? ENTER (C)omputer or (P)layer:"
@@ -99,28 +99,30 @@ end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_game_board(brd)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  puts "🔹You're: #{PLAYER_MARKER}   🔸Computer is: #{COMPUTER_MARKER}".center(44)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "🔹You are: #{PLAYER_MARKER}    🔸Computer is: #{COMPUTER_MARKER}".center(44)
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts ""
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[1]}     |     #{brd[2]}     |     #{brd[3]}"
   puts "                 |           |"
-  puts "                𝟙|          𝟚|          𝟛"
+  puts "               𝟙.|         𝟚.|         𝟛."
   puts "      -----------+-----------+-----------"
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[4]}     |     #{brd[5]}     |     #{brd[6]}"
   puts "                 |           |"
-  puts "                𝟜|          𝟝|          𝟞"
+  puts "               𝟜.|         𝟝.|         𝟞."
   puts "      -----------+-----------+-----------"
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[7]}     |     #{brd[8]}     |     #{brd[9]}"
   puts "                 |           |"
-  puts "                𝟟|          𝟠|          𝟡"
+  puts "               𝟟.|         𝟠.|         𝟡."
   puts ""
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
@@ -198,8 +200,8 @@ while quit_str == '' do
   # loop do
     first_player = retreive_first_player
   
-    p first_player
-    # display_game_board(game_board)
+  
+    display_game_board(game_board)
     break
   #   player_places_piece!(board)
   #   break if someone_won?(board) || board_full?(board)
