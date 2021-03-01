@@ -184,33 +184,47 @@ def board_full?(brd)
   empty_squares(brd).empty?
 end
 
-def someone_won?(brd)
-  !!detect_winner(brd)
+def someone_won?(brd, winner)
+  !!detect_winner(brd, winner)
 end
 
-def detect_winner(brd)
+def detect_winner(brd, winner)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
+      winner[0] = 'player'
       return 'Player'
     elsif brd.values_at(*line).count(COMPUTER_MARKER) == 3
-      return 'Computer'
+      winner[0] = "computer"
+      return 'computer'
+    else
+      winner[0] = 'tie'
     end
   end
 
   nil
 end
 
-def display_winner_of_round(winner_of_round)
-  case winner_of_round
+def set_round_winner(_, winner)
+  case winner[0]
+  when "player"   then winner[0] = 'player'
+  when "computer" then winner[0] = 'computer'
+  else                 winner[0] = 'tie'
+  end
+
+  winner.join('')
+end
+
+def display_round_winner(winner)
+  case winner[0]
   when 'player'   then prompt "You won that round."
   when 'computer' then prompt "I won this round."
   else                 prompt "TIE! Let's do this again."
   end
 end
 
-def increment_score(round_winner, scores)
-  scores[:player] += 1   if round_winner == 'player'
-  scores[:computer] += 1 if round_winner == 'computer'
+def increment_score(winner, scores)
+  scores[:player] += 1   if winner[0] == 'player'
+  scores[:computer] += 1 if winner[0] == 'computer'
 end
 
 def game_over?(scores)
@@ -247,6 +261,7 @@ end
 
 # #########################################################################
 # BEGINNING
+round_winner = []
 quit_str = ''
 clear_screen
 display_instructional_greeting
@@ -263,20 +278,18 @@ while quit_str == ''
     current_player = sets_current_player(retreive_first_player)
 
     loop do
-      clear_screen
       display_gameboard(gameboard)
-      # display_scoreboard(scoreboard)
       the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
-      break if someone_won?(gameboard) || board_full?(gameboard)
-      
+      break if someone_won?(gameboard, '') || board_full?(gameboard)
     end
 
+    set_round_winner(detect_winner(gameboard, round_winner), round_winner)
+    increment_score(round_winner, scoreboard)
     display_gameboard(gameboard)
     display_scoreboard(scoreboard)
-    winner_of_round = someone_won?(gameboard)
-  #   display_winner_of_round(winner_of_round)
-  #   increment_score(winner_of_round, scoreboard)
+    display_round_winner(round_winner)
+binding.pry
   #   break if game_over?(scoreboard)
 
   #   grand_winner = establish_grand_winner(scoreboard)
@@ -286,6 +299,7 @@ while quit_str == ''
   #   another_round = play_again?
   #   break if another_round.downcase != 'y'
   end
+  binding.pry
 end
 
 clear_screen
