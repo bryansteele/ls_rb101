@@ -258,32 +258,33 @@ clear_screen
 # MAIN LOOP
 while quit_str == ''
   scoreboard = initialize_score
-  gameboard = initialize_gameboard
   current_player = retreive_first_player
 
   loop do
+    gameboard = initialize_gameboard
+
+    # loop do
       display_gameboard(gameboard)
       display_scoreboard(scoreboard)
       the_play!(current_player, gameboard)
       current_player = alternating_players(current_player)
       break if valid_win_of_round(gameboard) || board_full?(gameboard)
+    end
 
-    loop do
     display_gameboard(gameboard)
-    # display_scoreboard(scoreboard)
+    display_scoreboard(scoreboard)
     winner_of_round = valid_win_of_round(gameboard)
     display_winner_of_round(winner_of_round)
     increment_score(winner_of_round, scoreboard)
     break if game_over?(scoreboard)
-    end
 
-  grand_winner = establish_grand_winner(scoreboard)
-  clear_screen
-  display_end_of_game
-  display_grand_winner(grand_winner)
-  another_round = play_again?
-  break if another_round.downcase != 'y'
-  end
+  #   grand_winner = establish_grand_winner(scoreboard)
+  #   clear_screen
+  #   display_end_of_game
+  #   display_grand_winner(grand_winner)
+  #   another_round = play_again?
+  #   break if another_round.downcase != 'y'
+  # end
 end
 
 clear_screen
