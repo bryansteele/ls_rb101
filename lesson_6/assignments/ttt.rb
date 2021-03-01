@@ -4,7 +4,7 @@ WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
   [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
 ]
-WINNING_MATCH = 5
+WINNING_MATCH = 3
 INITIAL_MARKER = ' '
 PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
@@ -241,15 +241,16 @@ def establish_grand_winner(scores)
   grand_winner
 end
 
+
 def display_end_of_game
   prompt "GAME OVER!"
 end
 
 def display_grand_winner(winner)
   if winner
-    prompt "YOU ARE the GRAND WINNER! CONGRATULATIONS!\n "
+    prompt "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!\n "
   else
-    prompt "I AM the GRAND WINNER! Better Luck Next Time.\n \n "
+    prompt "I AM the GRAND CHAMPION! Better Luck Next Time.\n \n "
   end
 end
 
@@ -272,34 +273,36 @@ clear_screen
 # MAIN LOOP
 while quit_str == ''
   scoreboard = initialize_score
+  current_player = sets_current_player(retreive_first_player)
 
   loop do
     gameboard = initialize_gameboard
-    current_player = sets_current_player(retreive_first_player)
+    # current_player = sets_current_player(retreive_first_player)
 
     loop do
       display_gameboard(gameboard)
+      display_scoreboard(scoreboard)
       the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
       break if someone_won?(gameboard, '') || board_full?(gameboard)
     end
-
+      
     set_round_winner(detect_winner(gameboard, round_winner), round_winner)
     increment_score(round_winner, scoreboard)
     display_gameboard(gameboard)
     display_scoreboard(scoreboard)
     display_round_winner(round_winner)
-binding.pry
-  #   break if game_over?(scoreboard)
-
-  #   grand_winner = establish_grand_winner(scoreboard)
-  #   clear_screen
-  #   display_end_of_game
-  #   display_grand_winner(grand_winner)
-  #   another_round = play_again?
-  #   break if another_round.downcase != 'y'
+    sleep(2)
+    break if game_over?(scoreboard)
   end
-  binding.pry
+
+  grand_winner = establish_grand_winner(scoreboard)
+  display_end_of_game
+  sleep(2)
+  display_grand_winner(grand_winner)
+  sleep(2)
+  another_round = play_again?
+  break if another_round.downcase != 'y'
 end
 
 clear_screen
