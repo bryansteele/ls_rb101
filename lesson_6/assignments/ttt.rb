@@ -60,6 +60,16 @@ def enter_to_begin(quit_str)
   end
 end
 
+def initialize_score
+  { player: 0, computer: 0}
+end
+
+def initialize_gameboard
+  new_board = {}
+  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
+  new_board
+end
+
 def first_player_prompt
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
@@ -86,21 +96,11 @@ def retreive_first_player
     puts "Invalid Input! Please ENTER 'C' or 'P'"
   end
 
-  first_player(answer)
+  set_current_player(answer)
 end
 
-def first_player(first_to_play)
+def set_current_player(first_to_play)
   first_to_play == 'c' ? 'computer' : 'player'
-end
-
-def initialize_score
-  { player: 0, computer: 0}
-end
-
-def initialize_gameboard
-  new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
-  new_board
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
@@ -132,8 +132,9 @@ def display_gameboard(brd)
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-def empty_squares(brd)
-  brd.keys.select { |num| brd[num] == INITIAL_MARKER }
+def display_scoreboard(scores)
+  puts "🔹YOURE SCORE: #{scores[:player]}     🔸My SCORE: #{scores[:computer]}".center(44)
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
 def joinor(arr, delimiter=', ', word='or')
@@ -147,15 +148,15 @@ def joinor(arr, delimiter=', ', word='or')
   end
 end
 
-def the_play!(current_player, brd)
-  if current_player == "player"
-    player_turn!(brd)
-  else
-    computer_turn!(brd)
-  end
+def empty_squares(brd)
+  brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
-def player_turn!(brd)
+def the_play!(current_player, brd)
+  current_player == "player" ? player_turn!(brd) : computer_turn!(brd)
+end
+
+def player_turn!(brd, current_player)
   square = ''
   loop do
     puts "🔷 Choose a square #{joinor(empty_squares(brd))}"
@@ -167,13 +168,13 @@ def player_turn!(brd)
   brd[square] = PLAYER_MARKER
 end
 
-def alternating_players(player)
-  player == 'player' ? 'computer' : 'player'
-end
-
 def computer_turn!(brd)
   square = empty_squares(brd).sample
   brd[square] = COMPUTER_MARKER
+end
+
+def alternating_players(player)
+  player == 'player' ? 'computer' : 'player'
 end
 
 def board_full?(brd)
@@ -206,11 +207,6 @@ end
 def increment_score(round_winner, scores)
   scores[:player] += 1   if round_winner == 'player'
   scores[:computer] += 1 if round_winner == 'computer'
-end
-
-def display_scoreboard(scores)
-  puts "🔹YOURE SCORE: #{scores[:player]}     🔸My SCORE: #{scores[:computer]}".center(44)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
 def game_over?(scores)
@@ -258,33 +254,35 @@ clear_screen
 # MAIN LOOP
 while quit_str == ''
   scoreboard = initialize_score
-  current_player = retreive_first_player
 
   loop do
     gameboard = initialize_gameboard
+    current_player = retreive_first_player
 
-    # loop do
+    loop do
       display_gameboard(gameboard)
       display_scoreboard(scoreboard)
-      the_play!(current_player, gameboard)
+      the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
+      display_gameboard(gameboard)
+      display_scoreboard(scoreboard)
       break if valid_win_of_round(gameboard) || board_full?(gameboard)
     end
 
-    display_gameboard(gameboard)
-    display_scoreboard(scoreboard)
-    winner_of_round = valid_win_of_round(gameboard)
-    display_winner_of_round(winner_of_round)
-    increment_score(winner_of_round, scoreboard)
-    break if game_over?(scoreboard)
+  #   display_gameboard(gameboard)
+  #   display_scoreboard(scoreboard)
+  #   winner_of_round = valid_win_of_round(gameboard)
+  #   display_winner_of_round(winner_of_round)
+  #   increment_score(winner_of_round, scoreboard)
+  #   break if game_over?(scoreboard)
 
-  #   grand_winner = establish_grand_winner(scoreboard)
+  # #   grand_winner = establish_grand_winner(scoreboard)
   #   clear_screen
   #   display_end_of_game
   #   display_grand_winner(grand_winner)
   #   another_round = play_again?
   #   break if another_round.downcase != 'y'
-  # end
+  end
 end
 
 clear_screen
