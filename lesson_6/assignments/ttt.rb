@@ -1,3 +1,5 @@
+require 'pry'
+
 WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
   [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
@@ -6,10 +8,6 @@ WINNING_MATCH = 5
 INITIAL_MARKER = ' '
 PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
-
-def clear_screen
-  system('clear') || system('clr')
-end
 
 def prompt(msg)
   puts "➣  #{msg}"
@@ -32,80 +30,9 @@ def display_instructional_greeting
   MSG
 end
 
-def valid_enter_key?(key)
-    key == "\n"
-end
-
-def exit_game?(str)
-  str << 'YES'
-end
-
-def enter_to_begin(quit_str)
-  counter = 0
-  loop do
-    key = gets
-    break if valid_enter_key?(key)
-    clear_screen
-    
-    if counter <= 1
-      prompt "INVALID KEY! Please press |ENTER ⏎ | to begin."
-    else
-      prompt "EXITING in 2 seconds."
-      sleep(2)
-      exit_game?(quit_str)
-      break
-    end
-      
-    counter += 1
-  end
-end
-
-def initialize_score
-  { player: 0, computer: 0}
-end
-
-def initialize_gameboard
-  new_board = {}
-  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
-  new_board
-end
-
-def first_player_prompt
-  clear_screen
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  prompt "Who goes first?"
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  sleep(2)
-  clear_screen
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  prompt "You or the Me? ENTER (C)omputer or (P)layer:"
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-end
-
-def valid_first_player?(choice)
-  %w(c p).include?(choice)
-end
-
-def retreive_first_player
-  answer = ''
-  first_player_prompt
-  
-  loop do
-    answer = gets.chomp.downcase
-    break if valid_first_player?(answer)
-    puts "Invalid Input! Please ENTER 'C' or 'P'"
-  end
-
-  set_current_player(answer)
-end
-
-def set_current_player(first_to_play)
-  first_to_play == 'c' ? 'computer' : 'player'
-end
-
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_gameboard(brd)
-  clear_screen unless empty_squares(brd) == 9
+  clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   puts "🔹You are: #{PLAYER_MARKER}   🔸I am: #{COMPUTER_MARKER}".center(44)
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
@@ -133,11 +60,87 @@ end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def display_scoreboard(scores)
-  puts "🔹YOURE SCORE: #{scores[:player]}     🔸My SCORE: #{scores[:computer]}".center(44)
+  puts "🔹YOUR SCORE: #{scores[:player]}\
+        🔸My SCORE: #{scores[:computer]}".center(45)
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
-def joinor(arr, delimiter=', ', word='or')
+def clear_screen
+  system('clear') || system('clr')
+end
+
+def valid_enter_key?(key)
+  key == "\n"
+end
+
+def exit_game?(str)
+  str << 'YES'
+end
+
+def enter_to_begin(quit_str)
+  counter = 0
+  loop do
+    key = gets
+    break if valid_enter_key?(key)
+    clear_screen
+
+    if counter <= 1
+      prompt "INVALID KEY! Please press |ENTER ⏎ | to begin."
+    else
+      prompt "EXITING in 2 seconds."
+      sleep(2)
+      exit_game?(quit_str)
+      break
+    end
+
+    counter += 1
+  end
+end
+
+def initialize_score
+  { player: 0, computer: 0 }
+end
+
+def initialize_gameboard
+  new_board = {}
+  (1..9).each { |num| new_board[num] = INITIAL_MARKER }
+  new_board
+end
+
+def first_player_prompt
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  prompt "Who goes first?"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  sleep(2)
+  clear_screen
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  prompt "You or the Me? ENTER (C)omputer or (P)layer:"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+end
+
+def valid_first_player?(choice)
+  %w(c p).include?(choice)
+end
+
+def retreive_first_player
+  answer = ''
+  first_player_prompt
+
+  loop do
+    answer = gets.chomp.downcase
+    break if valid_first_player?(answer)
+    puts "Invalid Input! Please ENTER 'C' or 'P'"
+  end
+
+  answer
+end
+
+def sets_current_player(first_to_play)
+  first_to_play == 'c' ? 'computer' : 'player'
+end
+
+def add_or(arr, delimiter=', ', word='or')
   case arr.size
   when 0 then ''
   when 1 then arr.first
@@ -152,14 +155,14 @@ def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
-def the_play!(current_player, brd)
+def the_play!(brd, current_player)
   current_player == "player" ? player_turn!(brd) : computer_turn!(brd)
 end
 
-def player_turn!(brd, current_player)
+def player_turn!(brd)
   square = ''
   loop do
-    puts "🔷 Choose a square #{joinor(empty_squares(brd))}"
+    puts "🔷 Choose a square #{add_or(empty_squares(brd))}."
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice."
@@ -168,32 +171,33 @@ def player_turn!(brd, current_player)
   brd[square] = PLAYER_MARKER
 end
 
+def alternating_players(turn)
+  turn == 'player' ? 'computer' : 'player'
+end
+
 def computer_turn!(brd)
   square = empty_squares(brd).sample
   brd[square] = COMPUTER_MARKER
-end
-
-def alternating_players(player)
-  player == 'player' ? 'computer' : 'player'
 end
 
 def board_full?(brd)
   empty_squares(brd).empty?
 end
 
-def valid_win_of_round(brd)
-  winner_of_round = ''
+def someone_won?(brd)
+  !!detect_winner(brd)
+end
+
+def detect_winner(brd)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
-      winner_of_round = 'Player'
+      return 'Player'
     elsif brd.values_at(*line).count(COMPUTER_MARKER) == 3
-      winner_of_round =  'Computer'
-    else
-      winner_of_round = 'tie'
+      return 'Computer'
     end
   end
 
-  winner_of_round
+  nil
 end
 
 def display_winner_of_round(winner_of_round)
@@ -243,7 +247,6 @@ end
 
 # #########################################################################
 # BEGINNING
-winner_of_round = ''
 quit_str = ''
 clear_screen
 display_instructional_greeting
@@ -257,26 +260,26 @@ while quit_str == ''
 
   loop do
     gameboard = initialize_gameboard
-    current_player = retreive_first_player
+    current_player = sets_current_player(retreive_first_player)
 
     loop do
+      clear_screen
       display_gameboard(gameboard)
-      display_scoreboard(scoreboard)
+      # display_scoreboard(scoreboard)
       the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
-      display_gameboard(gameboard)
-      display_scoreboard(scoreboard)
-      break if valid_win_of_round(gameboard) || board_full?(gameboard)
+      break if someone_won?(gameboard) || board_full?(gameboard)
+      
     end
 
-  #   display_gameboard(gameboard)
-  #   display_scoreboard(scoreboard)
-  #   winner_of_round = valid_win_of_round(gameboard)
+    display_gameboard(gameboard)
+    display_scoreboard(scoreboard)
+    winner_of_round = someone_won?(gameboard)
   #   display_winner_of_round(winner_of_round)
   #   increment_score(winner_of_round, scoreboard)
   #   break if game_over?(scoreboard)
 
-  # #   grand_winner = establish_grand_winner(scoreboard)
+  #   grand_winner = establish_grand_winner(scoreboard)
   #   clear_screen
   #   display_end_of_game
   #   display_grand_winner(grand_winner)
