@@ -1,14 +1,12 @@
-require 'pry'
-
 WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
   [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
 ]
 WINNING_MATCH = 2
 BEST_SQUARE = 5
-INITIAL_MARKER = ' '
-PLAYER_MARKER = '𝙓'
-COMPUTER_MARKER = 'O'
+INITIAL_MARKER = " "
+PLAYER_MARKER = "𝙓"
+COMPUTER_MARKER = "O"
 
 def prompt(msg)
   puts "➣  #{msg}"
@@ -29,7 +27,7 @@ def display_instructional_greeting
 end
 
 def display_emptyline
-  puts ''
+  puts ""
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
@@ -73,7 +71,7 @@ def display_scoreboard(scores)
 end
 
 def clear_screen
-  system('clear') || system('clr')
+  system("clear") || system("clr")
 end
 
 def valid_enter_key?(key)
@@ -81,7 +79,7 @@ def valid_enter_key?(key)
 end
 
 def exit_game?(str)
-  str << 'YES'
+  str << "YES"
 end
 
 def enter_to_continue(quit_str)
@@ -106,7 +104,7 @@ end
 
 def hit_enter_prompt
   display_emptyline
-  puts '         ➣  Press |ENTER ⏎ | to continue.'
+  puts "         ➣  Press |ENTER ⏎ | to continue."
   display_emptyline
   display_emptyline
 end
@@ -138,7 +136,7 @@ def valid_first_player?(choice)
 end
 
 def retreive_first_player
-  answer = ''
+  answer = ""
   first_player_prompt
 
   loop do
@@ -154,9 +152,9 @@ def sets_current_player(first_to_play)
   first_to_play == 'c' ? 'computer' : 'player'
 end
 
-def add_or(arr, delimiter=', ', word='or')
+def add_or(arr, delimiter=", ", word="or")
   case arr.size
-  when 0 then ''
+  when 0 then ""
   when 1 then arr.first
   when 2 then arr.join(" #{word} ")
   else
@@ -178,7 +176,7 @@ def the_play!(brd, current_player)
 end
 
 def player_turn!(brd)
-  square = ''
+  square = ""
   loop do
     puts "🔷 CHOOSE A SQUARE: #{add_or(empty_squares(brd))}."
     square = gets.chomp
@@ -190,14 +188,12 @@ def player_turn!(brd)
 end
 
 def alternating_players(turn)
-  turn == 'player' ? 'computer' : 'player'
+  turn == "player" ? "computer" : "player"
 end
 
 def find_at_risk_square(line, brd, marker)
   if brd.values_at(*line).count(marker) == 2
     brd.select { |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
-  else
-    nil
   end
 end
 
@@ -243,13 +239,13 @@ end
 def detect_winner(brd, winner)
   WINNING_LINES.each do |line|
     if brd.values_at(*line).count(PLAYER_MARKER) == 3
-      winner[0] = 'player'
+      winner[0] = "player"
       return 'Player'
     elsif brd.values_at(*line).count(COMPUTER_MARKER) == 3
       winner[0] = "computer"
-      return 'computer'
+      return "computer"
     else
-      winner[0] = 'tie'
+      winner[0] = "tie"
     end
   end
 
@@ -258,12 +254,12 @@ end
 
 def set_round_winner(_, winner)
   winner[0] = case winner[0]
-              when "player"   then 'player'
-              when "computer" then 'computer'
-              else                 'tie'
+              when "player"   then "player"
+              when "computer" then "computer"
+              else                 "tie"
               end
 
-  winner.join('')
+  winner.join("")
 end
 
 def display_round_winner(winner)
@@ -271,8 +267,8 @@ def display_round_winner(winner)
   puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   display_emptyline
   case winner[0]
-  when 'player'   then puts "🔷            YOU WON THIS ROUND!!              🔷"
-  when 'computer' then puts "🔶         THE COMPUTER WON THIS TIME!!         🔷"
+  when "player"   then puts "🔷            YOU WON THIS ROUND!!              🔷"
+  when "computer" then puts "🔶         THE COMPUTER WON THIS TIME!!         🔷"
   else                 puts "🔶           TIE! LET'S DO THIS AGAIN.          🔷"
   end
   display_emptyline
@@ -281,8 +277,8 @@ def display_round_winner(winner)
 end
 
 def increment_score(winner, scores)
-  scores[:player] += 1   if winner[0] == 'player'
-  scores[:computer] += 1 if winner[0] == 'computer'
+  scores[:player] += 1   if winner[0] == "player"
+  scores[:computer] += 1 if winner[0] == "computer"
 end
 
 def game_over?(scores)
@@ -302,7 +298,7 @@ end
 def display_end_of_game
   puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
   display_emptyline
-  puts 'GAME OVER!'.center(50)
+  puts "GAME OVER!".center(50)
   display_emptyline
   puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
 end
@@ -332,25 +328,25 @@ end
 
 def display_bye
   display_emptyline
-  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
-  puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶  THANK YOU   🔶🔷🔶🔷🔶🔷🔶🔷🔶'
-  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷     FOR      🔷🔶🔷🔶🔷🔶🔷🔶🔷'
-  puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶   PLAYING!   🔶🔷🔶🔷🔶🔷🔶🔷🔶'
-  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
+  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
+  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶  THANK YOU   🔶🔷🔶🔷🔶🔷🔶🔷🔶"
+  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷     FOR      🔷🔶🔷🔶🔷🔶🔷🔶🔷"
+  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶   PLAYING!   🔶🔷🔶🔷🔶🔷🔶🔷🔶"
+  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
   sleep(2)
   clear_screen
   display_emptyline
-  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
-  puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶'
-  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷  GOOD BYE!!  🔷🔶🔷🔶🔷🔶🔷🔶🔷'
-  puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶'
-  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
+  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
+  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶"
+  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷  GOOD BYE!!  🔷🔶🔷🔶🔷🔶🔷🔶🔷"
+  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶"
+  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
 end
 
 # #########################################################################
 # BEGINNING
 round_winner = []
-quit_str = ''
+quit_str = ""
 clear_screen
 display_instructional_greeting
 hit_enter_prompt
@@ -359,7 +355,7 @@ clear_screen
 
 ##########################################################################
 # MAIN LOOP
-while quit_str == ''
+while quit_str == ""
   scoreboard = initialize_score
   current_player = sets_current_player(retreive_first_player)
 
@@ -370,7 +366,7 @@ while quit_str == ''
       display_gameboard(gameboard)
       the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
-      break if someone_won?(gameboard, '') || board_full?(gameboard)
+      break if someone_won?(gameboard, "") || board_full?(gameboard)
     end
 
     set_round_winner(detect_winner(gameboard, round_winner), round_winner)
@@ -381,6 +377,7 @@ while quit_str == ''
     sleep(2)
     display_round_winner(round_winner)
     display_scoreboard(scoreboard)
+    sleep(1.4)
     hit_enter_prompt
     enter_to_continue(quit_str)
     break if game_over?(scoreboard)
@@ -390,10 +387,11 @@ while quit_str == ''
   clear_screen
   display_end_of_game
   display_grand_winner(grand_winner)
+  sleep(1.4)
   hit_enter_prompt
   enter_to_continue(quit_str)
   another_round = play_again?
-  break if another_round.downcase != 'y'
+  break if another_round.downcase != "y"
 end
 
 clear_screen
