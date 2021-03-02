@@ -63,10 +63,12 @@ def display_scoreboard(scores)
   puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
   puts ''
   puts "🔹YOUR SCORE: #{scores[:player]}\
-        🔸My SCORE: #{scores[:computer]}".center(45)
+    🔸My SCORE: #{scores[:computer]}".center(49)
         puts ''
   puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
   puts ''
+  puts ''
+  puts '➣   Press |ENTER ⏎ | to continue'.center(50)
 end
 
 def clear_screen
@@ -89,7 +91,7 @@ def enter_to_progress(quit_str)
     clear_screen
 
     if counter <= 1
-      prompt "INVALID KEY! Please press |ENTER ⏎ | to begin."
+      prompt "INVALID KEY! Please press |ENTER ⏎ |."
     else
       prompt "EXITING in 2 seconds."
       sleep(2)
@@ -249,7 +251,7 @@ def display_round_winner(winner)
   puts ''
   case winner[0]
   when 'player'   then puts "🔷            YOU WON THIS ROUND!!              🔷"
-  when 'computer' then puts "🔶              I WON THIS TIME!                🔷"
+  when 'computer' then puts "🔶               I WON THIS TIME!               🔷"
   else                 puts "🔶           TIE! LET'S DO THIS AGAIN.          🔷"
   end
   puts ''
@@ -299,6 +301,10 @@ def display_grand_winner(winner)
     puts ''
     puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   end
+
+  puts ''
+  puts ''
+  puts '➣  Press |ENTER ⏎ | to continue'.center(50)
 end
 
 def play_again?
@@ -309,11 +315,24 @@ end
 
 def display_bye
   puts ''
+  puts ''
+  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
+  puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶  THANK YOU   🔶🔷🔶🔷🔶🔷🔶🔷🔶'
+  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷     FOR      🔷🔶🔷🔶🔷🔶🔷🔶🔷'
+  puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶   PLAYING!   🔶🔷🔶🔷🔶🔷🔶🔷🔶'
+  puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
+  puts ''
+  puts ''
+  sleep(2)
+  clear_screen
+  puts ''
+  puts ''
   puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
   puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶'
   puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷  GOOD BYE!!  🔷🔶🔷🔶🔷🔶🔷🔶🔷'
   puts '🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶'
   puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
+  puts ''
   puts ''
 end
 
@@ -349,7 +368,7 @@ while quit_str == ''
     sleep(2)
     display_round_winner(round_winner)
     display_scoreboard(scoreboard)
-    sleep(5)
+    enter_to_progress(quit_str)
     break if game_over?(scoreboard)
   end
 
@@ -357,7 +376,7 @@ while quit_str == ''
   clear_screen
   display_end_of_game
   display_grand_winner(grand_winner)
-  sleep(5)
+  enter_to_progress(quit_str)
   another_round = play_again?
   break if another_round.downcase != 'y'
 end
