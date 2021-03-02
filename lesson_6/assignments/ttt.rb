@@ -5,6 +5,7 @@ WINNING_LINES = [
   [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
 ]
 WINNING_MATCH = 2
+BEST_SQUARE = 5
 INITIAL_MARKER = ' '
 PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
@@ -20,9 +21,9 @@ def display_instructional_greeting
               ➣  Welcome to TIC-TAC-TOE!
 
     • First one to get 3 in a row wins the round.
-    • First one to win 3 rounds is the GRAND CHAMPION!!!
+    • First one to win #{WINNING_MATCH} rounds is the GRAND CHAMPION!!!
 
-              ➣  You are: 𝙓     I am: O
+              ➣  You are: #{PLAYER_MARKER}     I am: #{COMPUTER_MARKER}
 
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
           ➣  Please press |ENTER ⏎ | to begin.
@@ -186,34 +187,40 @@ def alternating_players(turn)
   turn == 'player' ? 'computer' : 'player'
 end
 
-def computer_turn!(brd)
-  square = nil
-
-  WINNING_LINES.each do |line|
-    square = find_at_risk_square(line, brd, PLAYER_MARKER)
-    break if square
-  end
-
-  if !square
-    WINNING_LINES.each do |line|
-      square = find_at_risk_square(line, brd, COMPUTER_MARKER)
-      break if square
-    end
-  end
-
-  if !square
-    square = empty_squares(brd).sample
-  end
-
-  brd[square] = COMPUTER_MARKER
-end
-
 def find_at_risk_square(line, brd, marker)
   if brd.values_at(*line).count(marker) == 2
     brd.select{ |k, v| line.include?(k) && v == INITIAL_MARKER }.keys.first
   else
     nil
   end
+end
+
+def computer_offense_defense(brd, marker)
+  square = nil
+  WINNING_LINES.each do |line|
+    square = find_at_risk_square(line, brd, PLAYER_MARKER)
+    break if square
+  end
+
+  square
+end
+
+def computer_turn!(brd)
+  square = computer_offense_defense(brd, COMPUTER_MARKER)
+
+  if !square
+    square = computer_offense_defense(brd, PLAYER_MARKER)
+  end
+
+  if !square
+    square = if empty_squares(brd).include?(BEST_SQUARE)
+               BEST_SQUARE
+             else
+               empty_squares(brd).sample
+             end
+  end
+
+  brd[square] = COMPUTER_MARKER
 end
 
 def board_full?(brd)
@@ -328,7 +335,7 @@ def display_bye
   puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
   puts ''
   puts ''
-  sleep()
+  sleep(2)
   clear_screen
   puts ''
   puts ''
