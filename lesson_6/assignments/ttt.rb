@@ -4,7 +4,7 @@ WINNING_LINES = [
   [1, 2, 3], [4, 5, 6], [7, 8, 9], [1, 4, 7],
   [2, 5, 8], [3, 6, 9], [1, 5, 9], [3, 5, 7]
 ]
-WINNING_MATCH = 3
+WINNING_MATCH = 2
 INITIAL_MARKER = ' '
 PLAYER_MARKER = '𝙓'
 COMPUTER_MARKER = 'O'
@@ -61,8 +61,10 @@ end
 
 def display_scoreboard(scores)
   puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
+  puts ''
   puts "🔹YOUR SCORE: #{scores[:player]}\
         🔸My SCORE: #{scores[:computer]}".center(45)
+        puts ''
   puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
   puts ''
 end
@@ -218,11 +220,13 @@ end
 
 def display_round_winner(winner)
   puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
+  puts ''
   case winner[0]
-  when 'player'   then puts "🔷 YOU WON THAT ROUND!!"
-  when 'computer' then puts "🔶 I WON THIS TIME!"
-  else                 prompt "TIE! LET'S DO THIS AGAIN."
+  when 'player'   then puts "🔷            YOU WON THIS ROUND!!              🔷"
+  when 'computer' then puts "🔶              I WON THIS TIME!                🔷"
+  else                 puts "🔶           TIE! LET'S DO THIS AGAIN.          🔷"
   end
+  puts ''
   puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
   puts ''
 end
@@ -248,17 +252,25 @@ end
 
 
 def display_end_of_game
-  prompt "GAME OVER!"
+  puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
+  puts ''
+  puts 'GAME OVER!'.center(50)
+  puts ''
+  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
 end
 
 def display_grand_winner(winner)
   if winner
     puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
-    prompt "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!"
+    puts ''
+    puts "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!".center(50)
+    puts ''
     puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
   else
     puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
-    prompt "I AM the GRAND CHAMPION! Better Luck Next Time."
+    puts ''
+    puts "I AM the GRAND CHAMPION! Better Luck Next Time.".center(50)
+    puts ''
     puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   end
 end
@@ -304,15 +316,15 @@ while quit_str == ''
     clear_screen
     display_round_winner(round_winner)
     display_scoreboard(scoreboard)
-    sleep(6)
+    sleep(5)
     break if game_over?(scoreboard)
   end
 
   grand_winner = establish_grand_winner(scoreboard)
+  clear_screen
   display_end_of_game
-  sleep(7)
   display_grand_winner(grand_winner)
-  sleep(7)
+  sleep(5)
   another_round = play_again?
   break if another_round.downcase != 'y'
 end
