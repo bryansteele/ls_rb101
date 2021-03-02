@@ -12,32 +12,34 @@ def prompt(msg)
   puts "➣  #{msg}"
 end
 
-def display_instructional_greeting
-  clear_screen
-  puts <<-MSG
-⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-            ➣ Welcome to TIC-TAC-TOE!
-
-  • First one to get 3 in a row wins the round.
-  • First one to win #{WINNING_MATCH} rounds is the GRAND CHAMPION!!!
-
-          ➣ You are: #{PLAYER_MARKER}   Computer is: #{COMPUTER_MARKER}
-⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-            MSG
+def display_empty_line
+  puts ""
 end
 
-def display_emptyline
-  puts ""
+def display_solid_line
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+end
+
+def display_instructional_greeting
+  clear_screen
+  display_solid_line
+  puts "➣ Welcome to TIC-TAC-TOE!".center(50)
+  display_empty_line
+  puts "  • First one to get 3 in a row wins the round."
+  puts "  • First one to win #{WINNING_MATCH} rounds is the GRAND CHAMPION!!!"
+  display_solid_line
+  puts "➣ You are: #{PLAYER_MARKER}  Computer is: #{COMPUTER_MARKER}".center(50)
+  display_empty_line
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_gameboard(brd)
   clear_screen
-  puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
-  puts "        🔹YOU ARE: #{PLAYER_MARKER}\
-      🔸COMPUTER IS: #{COMPUTER_MARKER}"
-  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
-  display_emptyline
+  display_solid_line
+  puts "        ➣ YOU ARE: #{PLAYER_MARKER}\
+    ➣ COMPUTER IS: #{COMPUTER_MARKER}"
+  display_solid_line
+  display_empty_line
   puts "                 |           |"
   puts "                 |           |"
   puts "           #{brd[1]}     |     #{brd[2]}     |     #{brd[3]}"
@@ -55,19 +57,19 @@ def display_gameboard(brd)
   puts "           #{brd[7]}     |     #{brd[8]}     |     #{brd[9]}"
   puts "                 |           |"
   puts "               𝟟.|         𝟠.|         𝟡."
-  display_emptyline
-  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
+  display_empty_line
+  display_solid_line
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def display_scoreboard(scores)
-  puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
-  display_emptyline
-  puts "🔹YOUR SCORE: #{scores[:player]}\
-    🔸COMPUTER SCORE: #{scores[:computer]}".center(49)
-  display_emptyline
-  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
-  display_emptyline
+  display_solid_line
+  display_empty_line
+  puts "➣ YOUR SCORE: #{scores[:player]}\
+    ➣ COMPUTER SCORE: #{scores[:computer]}".center(50)
+  display_empty_line
+  display_solid_line
+  display_empty_line
 end
 
 def clear_screen
@@ -103,10 +105,10 @@ def enter_to_continue(quit_str)
 end
 
 def hit_enter_prompt
-  display_emptyline
-  puts "         ➣  Press |ENTER ⏎ | to continue."
-  display_emptyline
-  display_emptyline
+  display_empty_line
+  puts "Press |ENTER ⏎ | to continue.".center(52)
+  display_empty_line
+  display_empty_line
 end
 
 def initialize_score
@@ -126,9 +128,9 @@ def first_player_prompt
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   sleep(2)
   clear_screen
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  display_solid_line
   prompt "You or the Computer? ENTER (P)layer or (C)omputer:"
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  display_solid_line
 end
 
 def valid_first_player?(choice)
@@ -178,7 +180,7 @@ end
 def player_turn!(brd)
   square = ""
   loop do
-    puts "🔷 CHOOSE A SQUARE: #{add_or(empty_squares(brd))}."
+    puts "➣ CHOOSE A SQUARE: #{add_or(empty_squares(brd))}."
     square = gets.chomp
     break if empty_squares(brd).include?(square.to_i) && valid_number?(square)
     prompt "Sorry, that's not a valid choice."
@@ -264,16 +266,16 @@ end
 
 def display_round_winner(winner)
   clear_screen
-  puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
-  display_emptyline
+  display_solid_line
+  display_empty_line
   case winner[0]
-  when "player"   then puts "🔷            YOU WON THIS ROUND!!              🔷"
-  when "computer" then puts "🔶         THE COMPUTER WON THIS TIME!!         🔷"
-  else                 puts "🔶           TIE! LET'S DO THIS AGAIN.          🔷"
+  when "player"   then puts "➣ YOU WON THIS ROUND!!".center(50)
+  when "computer" then puts "➣ THE COMPUTER WON THIS TIME!!".center(50)
+  else                 puts "➣ TIE! LET'S DO THIS AGAIN.".center(50)
   end
-  display_emptyline
-  puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
-  display_emptyline
+  display_empty_line
+  display_solid_line
+  display_empty_line
 end
 
 def increment_score(winner, scores)
@@ -296,28 +298,26 @@ def establish_grand_winner(scores)
 end
 
 def display_end_of_game
-  puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
-  display_emptyline
+  display_solid_line
+  display_empty_line
   puts "GAME OVER!".center(50)
-  display_emptyline
-  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
+  display_empty_line
+  display_solid_line
 end
 
 def display_grand_winner(winner)
+  display_solid_line
+  display_empty_line
   if winner
-    puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
-    display_emptyline
     puts "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!".center(50)
-    display_emptyline
-    puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
   else
-    puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
-    display_emptyline
     puts "The computer is the GRAND CHAMPION!".center(50)
     puts "   ...Better Luck Next Time...".center(46)
-    display_emptyline
-    puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   end
+
+  display_empty_line
+  display_solid_line
+  display_empty_line
 end
 
 def play_again?
@@ -327,23 +327,20 @@ def play_again?
 end
 
 def display_bye
-  display_emptyline
-  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
-  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶  THANK YOU   🔶🔷🔶🔷🔶🔷🔶🔷🔶"
-  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷     FOR      🔷🔶🔷🔶🔷🔶🔷🔶🔷"
-  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶   PLAYING!   🔶🔷🔶🔷🔶🔷🔶🔷🔶"
-  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
+  display_empty_line
+  display_solid_line
+  puts "THANK YOU".center(50)
+  puts "FOR".center(50)
+  puts "PLAYING!".center(50)
+  display_solid_line
   sleep(2)
   clear_screen
-  display_emptyline
-  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
-  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶"
-  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷  GOOD BYE!!  🔷🔶🔷🔶🔷🔶🔷🔶🔷"
-  puts "🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶              🔶🔷🔶🔷🔶🔷🔶🔷🔶"
-  puts "🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷"
+  display_empty_line
+  display_solid_line
+  puts "GOOD BYE!!".center(50)
+  display_solid_line
 end
 
-# #########################################################################
 # BEGINNING
 round_winner = []
 quit_str = ""
@@ -353,7 +350,6 @@ hit_enter_prompt
 enter_to_continue(quit_str)
 clear_screen
 
-##########################################################################
 # MAIN LOOP
 while quit_str == ""
   scoreboard = initialize_score
