@@ -312,7 +312,7 @@ def display_grand_winner(winner)
     puts "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!".center(50)
   else
     puts "The computer is the GRAND CHAMPION!".center(50)
-    puts "   ...Better Luck Next Time...".center(46)
+    puts "•••Better Luck Next Time•••".center(50)
   end
 
   display_empty_line
