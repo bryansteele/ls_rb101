@@ -20,7 +20,7 @@ def display_instructional_greeting
               ➣  Welcome to TIC-TAC-TOE!
 
     • First one to get 3 in a row wins the round.
-    • First one to win 5 rounds is the GRAND CHAMPION!!!
+    • First one to win 3 rounds is the GRAND CHAMPION!!!
 
               ➣  You are: 𝙓     I am: O
 
@@ -33,9 +33,9 @@ end
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
 def display_gameboard(brd)
   clear_screen
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  puts "🔹You are: #{PLAYER_MARKER}   🔸I am: #{COMPUTER_MARKER}".center(44)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
+  puts "🔹YOU ARE: #{PLAYER_MARKER}   🔸I AM: #{COMPUTER_MARKER}".center(44)
+  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
   puts ""
   puts "                 |           |"
   puts "                 |           |"
@@ -55,14 +55,16 @@ def display_gameboard(brd)
   puts "                 |           |"
   puts "               𝟟.|         𝟠.|         𝟡."
   puts ""
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
 def display_scoreboard(scores)
+  puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
   puts "🔹YOUR SCORE: #{scores[:player]}\
         🔸My SCORE: #{scores[:computer]}".center(45)
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
+  puts ''
 end
 
 def clear_screen
@@ -162,7 +164,7 @@ end
 def player_turn!(brd)
   square = ''
   loop do
-    puts "🔷 Choose a square #{add_or(empty_squares(brd))}."
+    puts "🔷 CHOOSE A SQUARE: #{add_or(empty_squares(brd))}."
     square = gets.chomp.to_i
     break if empty_squares(brd).include?(square)
     prompt "Sorry, that's not a valid choice."
@@ -215,11 +217,14 @@ def set_round_winner(_, winner)
 end
 
 def display_round_winner(winner)
+  puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   case winner[0]
-  when 'player'   then prompt "You won that round."
-  when 'computer' then prompt "I won this round."
-  else                 prompt "TIE! Let's do this again."
+  when 'player'   then puts "🔷 YOU WON THAT ROUND!!"
+  when 'computer' then puts "🔶 I WON THIS TIME!"
+  else                 prompt "TIE! LET'S DO THIS AGAIN."
   end
+  puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
+  puts ''
 end
 
 def increment_score(winner, scores)
@@ -248,9 +253,13 @@ end
 
 def display_grand_winner(winner)
   if winner
-    prompt "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!\n "
+    puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
+    prompt "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!"
+    puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
   else
-    prompt "I AM the GRAND CHAMPION! Better Luck Next Time.\n \n "
+    puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
+    prompt "I AM the GRAND CHAMPION! Better Luck Next Time."
+    puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   end
 end
 
@@ -281,26 +290,29 @@ while quit_str == ''
 
     loop do
       display_gameboard(gameboard)
-      display_scoreboard(scoreboard)
+      # display_scoreboard(scoreboard)
       the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
       break if someone_won?(gameboard, '') || board_full?(gameboard)
     end
-      
+
     set_round_winner(detect_winner(gameboard, round_winner), round_winner)
     increment_score(round_winner, scoreboard)
     display_gameboard(gameboard)
-    display_scoreboard(scoreboard)
     display_round_winner(round_winner)
     sleep(2)
+    clear_screen
+    display_round_winner(round_winner)
+    display_scoreboard(scoreboard)
+    sleep(6)
     break if game_over?(scoreboard)
   end
 
   grand_winner = establish_grand_winner(scoreboard)
   display_end_of_game
-  sleep(2)
+  sleep(7)
   display_grand_winner(grand_winner)
-  sleep(2)
+  sleep(7)
   another_round = play_again?
   break if another_round.downcase != 'y'
 end
