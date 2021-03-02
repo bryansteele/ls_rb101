@@ -161,6 +161,10 @@ def empty_squares(brd)
   brd.keys.select { |num| brd[num] == INITIAL_MARKER }
 end
 
+def valid_number?(num)
+  %w(1 2 3 4 5 6 7 8 9).include?(num)
+end
+
 def the_play!(brd, current_player)
   current_player == "player" ? player_turn!(brd) : computer_turn!(brd)
 end
@@ -169,12 +173,13 @@ def player_turn!(brd)
   square = ''
   loop do
     puts "🔷 CHOOSE A SQUARE: #{add_or(empty_squares(brd))}."
-    square = gets.chomp.to_i
+    square = gets.chomp
     break if empty_squares(brd).include?(square)
+    break if valid_number?(square)
     prompt "Sorry, that's not a valid choice."
   end
 
-  brd[square] = PLAYER_MARKER
+  brd[square.to_i] = PLAYER_MARKER
 end
 
 def alternating_players(turn)
@@ -323,7 +328,7 @@ def display_bye
   puts '🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷🔶🔷'
   puts ''
   puts ''
-  sleep(2)
+  sleep()
   clear_screen
   puts ''
   puts ''
