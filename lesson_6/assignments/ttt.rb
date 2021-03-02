@@ -81,7 +81,7 @@ def exit_game?(str)
   str << 'YES'
 end
 
-def enter_to_begin(quit_str)
+def enter_to_progress(quit_str)
   counter = 0
   loop do
     key = gets
@@ -113,9 +113,9 @@ end
 
 def first_player_prompt
   clear_screen
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   prompt "Who goes first?"
-  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
+  puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   sleep(2)
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
@@ -219,6 +219,7 @@ def set_round_winner(_, winner)
 end
 
 def display_round_winner(winner)
+  clear_screen
   puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   puts ''
   case winner[0]
@@ -287,7 +288,7 @@ round_winner = []
 quit_str = ''
 clear_screen
 display_instructional_greeting
-enter_to_begin(quit_str)
+enter_to_progress(quit_str)
 clear_screen
 
 ##########################################################################
@@ -298,11 +299,9 @@ while quit_str == ''
 
   loop do
     gameboard = initialize_gameboard
-    # current_player = sets_current_player(retreive_first_player)
 
     loop do
       display_gameboard(gameboard)
-      # display_scoreboard(scoreboard)
       the_play!(gameboard, current_player)
       current_player = alternating_players(current_player)
       break if someone_won?(gameboard, '') || board_full?(gameboard)
@@ -313,7 +312,6 @@ while quit_str == ''
     display_gameboard(gameboard)
     display_round_winner(round_winner)
     sleep(2)
-    clear_screen
     display_round_winner(round_winner)
     display_scoreboard(scoreboard)
     sleep(5)
