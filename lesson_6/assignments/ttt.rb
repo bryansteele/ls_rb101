@@ -23,7 +23,7 @@ def display_instructional_greeting
     • First one to get 3 in a row wins the round.
     • First one to win #{WINNING_MATCH} rounds is the GRAND CHAMPION!!!
 
-              ➣  You are: #{PLAYER_MARKER}     I am: #{COMPUTER_MARKER}
+            ➣  You are: #{PLAYER_MARKER}   Computer is: #{COMPUTER_MARKER}
 
   ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
           ➣  Please press |ENTER ⏎ | to begin.
@@ -35,7 +35,8 @@ end
 def display_gameboard(brd)
   clear_screen
   puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
-  puts "🔹YOU ARE: #{PLAYER_MARKER}   🔸I AM: #{COMPUTER_MARKER}".center(44)
+  puts "        🔹YOU ARE: #{PLAYER_MARKER}\
+      🔸COMPUTER IS: #{COMPUTER_MARKER}"
   puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
   puts ""
   puts "                 |           |"
@@ -64,12 +65,12 @@ def display_scoreboard(scores)
   puts "🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻"
   puts ''
   puts "🔹YOUR SCORE: #{scores[:player]}\
-    🔸My SCORE: #{scores[:computer]}".center(49)
+    🔸COMPUTER SCORE: #{scores[:computer]}".center(49)
         puts ''
   puts "🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺"
   puts ''
   puts ''
-  puts '➣   Press |ENTER ⏎ | to continue'.center(50)
+  puts '  Press |ENTER ⏎ | to continue'.center(50)
 end
 
 def clear_screen
@@ -122,7 +123,7 @@ def first_player_prompt
   sleep(2)
   clear_screen
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  prompt "You or the Me? ENTER (C)omputer or (P)layer:"
+  prompt "You or the Computer? ENTER (P)layer or (C)omputer:"
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
@@ -175,8 +176,7 @@ def player_turn!(brd)
   loop do
     puts "🔷 CHOOSE A SQUARE: #{add_or(empty_squares(brd))}."
     square = gets.chomp
-    break if empty_squares(brd).include?(square)
-    break if valid_number?(square)
+    break if empty_squares(brd).include?(square.to_i) && valid_number?(square)
     prompt "Sorry, that's not a valid choice."
   end
 
@@ -198,7 +198,7 @@ end
 def computer_offense_defense(brd, marker)
   square = nil
   WINNING_LINES.each do |line|
-    square = find_at_risk_square(line, brd, PLAYER_MARKER)
+    square = find_at_risk_square(line, brd, marker)
     break if square
   end
 
@@ -206,6 +206,8 @@ def computer_offense_defense(brd, marker)
 end
 
 def computer_turn!(brd)
+  prompt "Computer's Turn:"
+  sleep(0.5)
   square = computer_offense_defense(brd, COMPUTER_MARKER)
 
   if !square
@@ -221,6 +223,7 @@ def computer_turn!(brd)
   end
 
   brd[square] = COMPUTER_MARKER
+  sleep(0.5)
 end
 
 def board_full?(brd)
@@ -263,7 +266,7 @@ def display_round_winner(winner)
   puts ''
   case winner[0]
   when 'player'   then puts "🔷            YOU WON THIS ROUND!!              🔷"
-  when 'computer' then puts "🔶               I WON THIS TIME!               🔷"
+  when 'computer' then puts "🔶    THE COMPUTER WON THIS TIME!               🔷"
   else                 puts "🔶           TIE! LET'S DO THIS AGAIN.          🔷"
   end
   puts ''
@@ -309,7 +312,7 @@ def display_grand_winner(winner)
   else
     puts "🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶"
     puts ''
-    puts "I AM the GRAND CHAMPION! Better Luck Next Time.".center(50)
+    puts "The computer is the GRAND CHAMPION! Better Luck Next Time.".center(50)
     puts ''
     puts "🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷🔷"
   end
@@ -376,6 +379,7 @@ while quit_str == ''
     set_round_winner(detect_winner(gameboard, round_winner), round_winner)
     increment_score(round_winner, scoreboard)
     display_gameboard(gameboard)
+    sleep(1.4)
     display_round_winner(round_winner)
     sleep(2)
     display_round_winner(round_winner)
@@ -395,4 +399,6 @@ end
 
 clear_screen
 display_bye
+sleep(2)
+clear_screen
 
