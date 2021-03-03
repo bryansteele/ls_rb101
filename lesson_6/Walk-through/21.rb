@@ -14,13 +14,13 @@ def total(cards)
 
   sum = 0
   values.each do |value|
-    if value == "A"
-      sum += 11
-    elsif value.to_i == 0
-      sum += 10
-    else
-      sum += value.to_i
-    end
+    sum += if value == "A"
+             11
+           elsif value.to_i == 0
+             10
+           else
+             value.to_i
+           end
   end
 
   values.select { |value| value == "A" }.count.times do
@@ -88,7 +88,8 @@ loop do
   end
 
   prompt "Dealer has #{dealer_cards[0]} and ?"
-  prompt "You have: #{player_cards[0]} and #{player_cards[1]}, for a total of #{total(player_cards)}."
+  prompt "You have: #{player_cards[0]} and #{player_cards[1]},\
+   for a total of #{total(player_cards)}."
 
   loop do
     player_turn = nil
