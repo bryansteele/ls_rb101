@@ -20,78 +20,16 @@ def display_solid_line
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
-def display_welcome
+def display_instructional_greeting
   clear_screen
   display_solid_line
   puts "➣ Welcome to TIC-TAC-TOE!".center(50)
-  display_empty_line
-  puts "➣ Would you like to play a single round or a tournament?".center(50)
-  display_solid_line
-  display_empty_line
-  puts "|ENTER ⏎ | (S)ingle or (T)ournament".center(50)
-end
-
-def new_game_type
-  clear_screen
-  display_empty_line
-  display_solid_line
-  display_empty_line
-  puts "➣ Would you like to play a single round,".center(50)
-  puts "...or a tournament?".center(50)
-  display_empty_line
-  display_solid_line
-  display_empty_line
-  puts "|ENTER ⏎ | (S)ingle or (T)ournament".center(50)
-end
-
-def valid_game_entry?(entry)
-  %w(s t).include?(entry)
-end
-
-def retrieve_game_type
-  game = ''
-  loop do
-    game = gets.chomp.downcase
-    break if valid_game_entry?(game)
-    prompt "INVALID ENTRY! Please enter an 'S' or 'T'"
-  end
-
-  game
-end
-
-def retrieve_instructional_greeting(type, quit_str)
-  if type == "s"
-    display_single_round_greeting(quit_str)
-  else
-    display_tournament_greeting(quit_str)
-  end
-end
-
-def display_single_round_greeting(quit_str)
-  clear_screen
-  display_empty_line
-  puts "➣ Welcome to TIC-TAC-TOE! This is a Single Round".center(50)
-  display_empty_line
-  puts "  • First one to get 3 in a row wins the round."
-  display_solid_line
-  puts "➣ You are: #{PLAYER_MARKER}  Computer is: #{COMPUTER_MARKER}".center(50)
-  display_empty_line
-  hit_enter_prompt
-  enter_to_continue(quit_str)
-end
-
-def display_tournament_greeting(quit_str)
-  clear_screen
-  display_solid_line
-  puts "➣ Welcome to the TIC-TAC-TOE TOURNAMENT!".center(50)
   display_empty_line
   puts "  • First one to get 3 in a row wins the round."
   puts "  • First one to win #{WINNING_MATCH} rounds is the GRAND CHAMPION!!!"
   display_solid_line
   puts "➣ You are: #{PLAYER_MARKER}  Computer is: #{COMPUTER_MARKER}".center(50)
   display_empty_line
-  hit_enter_prompt
-  enter_to_continue(quit_str)
 end
 
 # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
@@ -124,7 +62,7 @@ def display_gameboard(brd)
 end
 # rubocop:enable Metrics/AbcSize, Metrics/MethodLength
 
-def display_scoreboard(scores, quit_str)
+def display_scoreboard(scores)
   display_solid_line
   display_empty_line
   puts "➣ YOUR SCORE: #{scores[:player]}\
@@ -132,8 +70,6 @@ def display_scoreboard(scores, quit_str)
   display_empty_line
   display_solid_line
   display_empty_line
-  hit_enter_prompt
-  enter_to_continue(quit_str)
 end
 
 def clear_screen
@@ -146,11 +82,6 @@ end
 
 def exit_game?(str)
   str << "YES"
-  clear_screen
-  prompt "GOOD BYE!"
-  sleep(1.5)
-  clear_screen
-  exit
 end
 
 def enter_to_continue(quit_str)
@@ -195,7 +126,7 @@ def first_player_prompt
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
   prompt "Who goes first?"
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
-  sleep(1.75)
+  sleep(2)
   clear_screen
   display_solid_line
   prompt "You or the Computer? ENTER (P)layer or (C)omputer:"
@@ -323,7 +254,7 @@ def detect_winner(brd, winner)
   nil
 end
 
-def set_round_winner(winner)
+def set_round_winner(_, winner)
   winner[0] = case winner[0]
               when "player"   then "player"
               when "computer" then "computer"
@@ -352,51 +283,11 @@ def increment_score(winner, scores)
   scores[:computer] += 1 if winner[0] == "computer"
 end
 
-def game_play(gameboard, current_player)
-  loop do
-    display_gameboard(gameboard)
-    the_play!(gameboard, current_player)
-    current_player = alternating_players(current_player)
-    break if someone_won?(gameboard, "") || board_full?(gameboard)
-  end
-end
-
-def start_game_play(current_player, scorebrd, quit_str, game_type)
-  round_winner = []
-
-  loop do
-    gameboard = initialize_gameboard
-    game_play(gameboard, current_player, )
-    detect_winner(gameboard, round_winner)
-    set_round_winner(round_winner)
-    increment_score(round_winner, scorebrd)
-    display_gameboard(gameboard)
-    sleep(1.4)
-    display_round_winner(round_winner)
-    sleep(1.75)
-    display_round_winner(round_winner)
-    display_scoreboard(scorebrd, quit_str) if game_type != "s"
-    
-    # extract more to methods and fix the displaying of the correct grand winner
-    if game_over?(scorebrd)
-      display_end_of_tournament(round_winner, quit_str)
-      hit_enter_prompt
-      enter_to_continue(quit_str)
-      break
-    elsif game_type == "s"
-      clear_screen
-      display_end_of_tournament(round_winner, quit_str)
-      break
-    end
-  end
-end
-
 def game_over?(scores)
   scores[:player] == WINNING_MATCH || scores[:computer] == WINNING_MATCH
 end
 
 def establish_grand_winner(scores)
-  grand_winner = nil
   if scores[:player] == WINNING_MATCH && scores[:computer] != WINNING_MATCH
     grand_winner = true
   elsif scores[:computer] == WINNING_MATCH || scores[:player] != WINNING_MATCH
@@ -406,20 +297,15 @@ def establish_grand_winner(scores)
   grand_winner
 end
 
-def establish_game_ending(scores, winner, game_type)
-  if game_type == "t"
-    establish_grand_winner(scores)
-  end
-end
-
-def display_end_of_tournament(winner, quit_str)
-  clear_screen
-  display_game_over(quit_str)
-  display_grand_winner(winner)
+def display_end_of_game
+  display_solid_line
+  display_empty_line
+  puts "GAME OVER!".center(50)
+  display_empty_line
+  display_solid_line
 end
 
 def display_grand_winner(winner)
-  clear_screen
   display_solid_line
   display_empty_line
   if winner
@@ -428,41 +314,19 @@ def display_grand_winner(winner)
     puts "The computer is the GRAND CHAMPION!".center(50)
     puts "•••Better Luck Next Time•••".center(50)
   end
-  display_empty_line
-  display_solid_line
-  display_empty_line
-end
 
-def display_game_over(quit_str)
-  display_solid_line
-  display_empty_line
-  puts "GAME OVER!".center(50)
   display_empty_line
   display_solid_line
-  hit_enter_prompt
-  enter_to_continue(quit_str)
-end
-
-def valid_play_again?(answer)
-  %w(y n).include?(answer)
+  display_empty_line
 end
 
 def play_again?
   clear_screen
-  answer = ''
-  prompt "Would you like to play again? (Y/N to play again):"
-
-  loop do
-    answer = gets.chomp.downcase
-    break if valid_play_again?(answer)
-    prompt "INVALID INPUT! Enter Y or N"
-  end
-
-  answer
+  prompt "Would you like to play again? (Y/y to play again):"
+  gets.chomp
 end
 
-def display_thank_you
-  clear_screen
+def display_bye
   display_empty_line
   display_solid_line
   puts "THANK YOU".center(50)
@@ -470,35 +334,63 @@ def display_thank_you
   puts "PLAYING!".center(50)
   display_solid_line
   sleep(2)
-end
-
-def display_bye
   clear_screen
   display_empty_line
   display_solid_line
   puts "GOOD BYE!!".center(50)
   display_solid_line
-  sleep(2)
-  clear_screen
 end
 
 # BEGINNING
+round_winner = []
 quit_str = ""
-display_welcome
+clear_screen
+display_instructional_greeting
+hit_enter_prompt
+enter_to_continue(quit_str)
+clear_screen
 
 # MAIN LOOP
-loop do
-  game_type = retrieve_game_type
-  retrieve_instructional_greeting(game_type, quit_str)
+while quit_str == ""
   scoreboard = initialize_score
   current_player = sets_current_player(retreive_first_player)
 
-  start_game_play(current_player, scoreboard, quit_str, game_type)
+  loop do
+    gameboard = initialize_gameboard
 
+    loop do
+      display_gameboard(gameboard)
+      the_play!(gameboard, current_player)
+      current_player = alternating_players(current_player)
+      break if someone_won?(gameboard, "") || board_full?(gameboard)
+    end
+
+    set_round_winner(detect_winner(gameboard, round_winner), round_winner)
+    increment_score(round_winner, scoreboard)
+    display_gameboard(gameboard)
+    sleep(1.4)
+    display_round_winner(round_winner)
+    sleep(2)
+    display_round_winner(round_winner)
+    display_scoreboard(scoreboard)
+    sleep(1.4)
+    hit_enter_prompt
+    enter_to_continue(quit_str)
+    break if game_over?(scoreboard)
+  end
+
+  grand_winner = establish_grand_winner(scoreboard)
+  clear_screen
+  display_end_of_game
+  display_grand_winner(grand_winner)
+  sleep(1.4)
+  hit_enter_prompt
+  enter_to_continue(quit_str)
   another_round = play_again?
   break if another_round.downcase != "y"
-  new_game_type
 end
 
-display_thank_you
+clear_screen
 display_bye
+sleep(2)
+clear_screen
