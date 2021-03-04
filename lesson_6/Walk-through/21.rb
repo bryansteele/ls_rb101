@@ -9,6 +9,7 @@ def initialize_deck
   SUITS.product(VALUES).shuffle
 end
 
+#############################################TOTAL#############################
 def total(cards)
   values = cards.map { |card| card[1] }
 
@@ -30,10 +31,12 @@ def total(cards)
   sum
 end
 
+#############################################busted?#############################
 def busted?(cards)
   total(cards) > 21
 end
 
+##################################################detect_result#################
 def detect_result(dealer_cards, player_cards)
   player_total = total(player_cards)
   dealer_total = total(dealer_cards)
@@ -51,6 +54,7 @@ def detect_result(dealer_cards, player_cards)
   end
 end
 
+######################################################display_results###########
 def display_result(dealer_cards, player_cards)
   result = detect_result(dealer_cards, player_cards)
 
@@ -74,7 +78,7 @@ def play_again?
   answer = gets.chomp
   answer.downcase.start_with?('y')
 end
-
+#################################################MAIN LOOP#######################
 loop do
   prompt "Welcome to Twenty-One!"
 
