@@ -369,7 +369,7 @@ def play_again
   answer = ''
 
   loop do
-    prompt "Would you like to play again? (Y/y to play again):"
+    prompt "Would you like to play again? Y/N:"
     answer = gets.chomp.downcase
     break if valid_answer?(answer)
     prompt "INVALID ENTRY! Please Enter Y/N"
