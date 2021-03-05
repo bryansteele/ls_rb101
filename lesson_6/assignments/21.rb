@@ -5,8 +5,19 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
+def welcome_prompt
+  prompt "Welcome to Twenty-One!"
+end
+
 def initialize_deck
   SUITS.product(VALUES).shuffle
+end
+
+def initial_deal(player_cards, dealer_cards, deck)
+  2.times do
+    player_cards << deck.pop
+    dealer_cards << deck.pop
+  end
 end
 
 def total(cards)
@@ -77,23 +88,20 @@ def play_again?
   answer = gets.chomp
   answer.downcase.start_with?('y')
 end
-
+##########################################################BEGINING#############
 loop do
-  prompt "Welcome to Twenty-One!"
-
-  # initialize vars
+  welcome_prompt
   deck = initialize_deck
   player_cards = []
   dealer_cards = []
 
-  # initial deal
-  2.times do
-    player_cards << deck.pop
-    dealer_cards << deck.pop
-  end
+  initial_deal(player_cards, dealer_cards, deck)
 
   prompt "Dealer has #{dealer_cards[0]} and ?"
   prompt "You have: #{player_cards[0]} and #{player_cards[1]}, for a total of #{total(player_cards)}."
+
+  player_total = total(player_cards)
+  dealer_total = total(dealer_cards)
 
   # player turn
   loop do
@@ -134,16 +142,16 @@ loop do
   end
 
   if busted?(dealer_cards)
-    prompt "Dealer total is now: #{total(dealer_cards)}"
+    prompt "Dealer total is now: #{dealer_total}"
     display_result(dealer_cards, player_cards)
     play_again? ? next : break
   else
-    prompt "Dealer stays at #{total(dealer_cards)}"
+    prompt "Dealer stays at #{dealer_total}"
   end
 
   # both player and dealer stays - compare cards!
   puts "=============="
-  prompt "Dealer has #{dealer_cards}, for a total of: #{total(dealer_cards)}"
+  prompt "Dealer has #{dealer_cards}, for a total of: #{dealer_total}"
   prompt "Player has #{player_cards}, for a total of: #{total(player_cards)}"
   puts "=============="
 
