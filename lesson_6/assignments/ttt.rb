@@ -20,6 +20,14 @@ def display_solid_line
   puts "⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼"
 end
 
+def start_program(quit_str)
+  clear_screen
+  display_instructional_greeting
+  hit_enter_prompt
+  enter_to_continue(quit_str)
+  clear_screen
+end
+
 def display_instructional_greeting
   clear_screen
   display_solid_line
@@ -173,8 +181,36 @@ def valid_number?(num)
   %w(1 2 3 4 5 6 7 8 9).include?(num)
 end
 
-def the_play!(brd, current_player)
+def play_marker!(brd, current_player)
   current_player == "player" ? player_turn!(brd) : computer_turn!(brd)
+end
+
+def the_play(gameboard, current_player)
+  loop do
+    display_gameboard(gameboard)
+    play_marker!(gameboard, current_player)
+    current_player = alternating_players(current_player)
+    break if someone_won?(gameboard, "") || board_full?(gameboard)
+  end
+end
+
+def start_tournament(scoreboard, current_player, quit_str)
+  round_winner = []
+
+  loop do
+    gameboard = initialize_gameboard
+    the_play(gameboard, current_player)
+    set_round_winner(detect_winner(gameboard, round_winner), round_winner)
+    increment_score(round_winner, scoreboard)
+    display_gameboard(gameboard)
+    sleep(1.4)
+    display_round_winner(round_winner)
+    display_scoreboard(scoreboard)
+    sleep(1.4)
+    hit_enter_prompt
+    enter_to_continue(quit_str)
+    break if game_over?(scoreboard)
+  end
 end
 
 def player_turn!(brd)
@@ -298,6 +334,7 @@ def establish_grand_winner(scores)
 end
 
 def display_end_of_game
+  clear_screen
   display_solid_line
   display_empty_line
   puts "GAME OVER!".center(50)
@@ -305,7 +342,7 @@ def display_end_of_game
   display_solid_line
 end
 
-def display_grand_winner(winner)
+def display_grand_winner(winner, quit_str)
   display_solid_line
   display_empty_line
   if winner
@@ -318,15 +355,31 @@ def display_grand_winner(winner)
   display_empty_line
   display_solid_line
   display_empty_line
+  sleep(1.4)
+  hit_enter_prompt
+  enter_to_continue(quit_str)
 end
 
-def play_again?
+def valid_answer?(answer)
+  %w(y n).include?(answer)
+end
+
+def play_again
   clear_screen
-  prompt "Would you like to play again? (Y/y to play again):"
-  gets.chomp
+  answer = ''
+
+  loop do
+    prompt "Would you like to play again? (Y/y to play again):"
+    answer = gets.chomp.downcase
+    break if valid_answer?(answer)
+    prompt "INVALID ENTRY! Please Enter Y/N"
+  end
+
+  answer
 end
 
-def display_bye
+def display_thank_you
+  clear_screen
   display_empty_line
   display_solid_line
   puts "THANK YOU".center(50)
@@ -334,63 +387,34 @@ def display_bye
   puts "PLAYING!".center(50)
   display_solid_line
   sleep(2)
+end
+
+def display_bye
   clear_screen
   display_empty_line
   display_solid_line
   puts "GOOD BYE!!".center(50)
   display_solid_line
+  sleep(1.5)
+  clear_screen
 end
 
-# BEGINNING
-round_winner = []
+# Start of Program
 quit_str = ""
-clear_screen
-display_instructional_greeting
-hit_enter_prompt
-enter_to_continue(quit_str)
-clear_screen
+start_program(quit_str)
 
 # MAIN LOOP
 while quit_str == ""
   scoreboard = initialize_score
   current_player = sets_current_player(retreive_first_player)
-
-  loop do
-    gameboard = initialize_gameboard
-
-    loop do
-      display_gameboard(gameboard)
-      the_play!(gameboard, current_player)
-      current_player = alternating_players(current_player)
-      break if someone_won?(gameboard, "") || board_full?(gameboard)
-    end
-
-    set_round_winner(detect_winner(gameboard, round_winner), round_winner)
-    increment_score(round_winner, scoreboard)
-    display_gameboard(gameboard)
-    sleep(1.4)
-    display_round_winner(round_winner)
-    sleep(2)
-    display_round_winner(round_winner)
-    display_scoreboard(scoreboard)
-    sleep(1.4)
-    hit_enter_prompt
-    enter_to_continue(quit_str)
-    break if game_over?(scoreboard)
-  end
-
+  start_tournament(scoreboard, current_player, quit_str)
   grand_winner = establish_grand_winner(scoreboard)
-  clear_screen
   display_end_of_game
-  display_grand_winner(grand_winner)
-  sleep(1.4)
-  hit_enter_prompt
-  enter_to_continue(quit_str)
-  another_round = play_again?
+  display_grand_winner(grand_winner, quit_str)
+
+  another_round = play_again
   break if another_round.downcase != "y"
 end
 
-clear_screen
+display_thank_you
 display_bye
-sleep(2)
-clear_screen
