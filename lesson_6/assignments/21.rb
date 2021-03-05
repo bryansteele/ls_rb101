@@ -59,16 +59,11 @@ def display_result(dealer_cards, player_cards)
   result = detect_result(dealer_cards, player_cards)
 
   case result
-  when :player_busted
-    prompt "You busted! Dealer wins!"
-  when :dealer_busted
-    prompt "Dealer busted! You win!"
-  when :player
-    prompt "You win!"
-  when :dealer
-    prompt "Dealer wins!"
-  when :tie
-    prompt "It's a tie!"
+  when :player_busted then prompt "You busted! Dealer wins!"
+  when :dealer_busted then prompt "Dealer busted! You win!"
+  when :player        then prompt "You win!"
+  when :dealer        then prompt "Dealer wins!"
+  when :tie           then prompt "It's a tie!"
   end
 end
 
