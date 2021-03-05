@@ -91,9 +91,12 @@ loop do
     dealer_cards << deck.pop
   end
 
+  player_total = total(player_cards)
+  dealer_total = total(dealer_cards)
+
   prompt "Dealer has #{dealer_cards[0]} and ?"
   prompt "You have: #{player_cards[0]} and #{player_cards[1]},\
-   for a total of #{total(player_cards)}."
+   for a total of #{player_total}."
 
   loop do
     player_turn = nil
@@ -108,7 +111,7 @@ loop do
       player_cards << deck.pop
       prompt "You chose to hit!"
       prompt "Your cards are now: #{player_cards}"
-      prompt "Your total is now: #{total(player_cards)}"
+      prompt "Your total is now: #{player_total}"
     end
 
     break if player_turn == 's' || busted?(player_cards)
@@ -118,13 +121,13 @@ loop do
     display_result(dealer_cards, player_cards)
     play_again? ? next : break
   else
-    prompt "You stayed at #{total(player_cards)}"
+    prompt "You stayed at #{player_total}"
   end
 
   prompt "Dealer turn..."
 
   loop do
-    break if total(dealer_cards) >= 17
+    break if dealer_total >= 17
 
     prompt "Dealer hits!"
     dealer_cards << deck.pop
@@ -132,16 +135,16 @@ loop do
   end
 
   if busted?(dealer_cards)
-    prompt "Dealer total is now: #{total(dealer_cards)}"
+    prompt "Dealer total is now: #{dealer_total}"
     display_result(dealer_cards, player_cards)
     play_again? ? next : break
   else
-    prompt "Dealer stays at #{total(dealer_cards)}"
+    prompt "Dealer stays at #{dealer_total}"
   end
 
   puts "=============="
-  prompt "Dealer has #{dealer_cards}, for a total of: #{total(dealer_cards)}"
-  prompt "Player has #{player_cards}, for a total of: #{total(player_cards)}"
+  prompt "Dealer has #{dealer_cards}, for a total of: #{dealer_total}"
+  prompt "Player has #{player_cards}, for a total of: #{player_total}"
   puts "=============="
 
   display_result(dealer_cards, player_cards)
