@@ -20,6 +20,7 @@ def clear_screen
 end
 
 def welcome_prompt
+  clear_screen
   prompt "Welcome to Twenty-One!"
 end
 
@@ -102,7 +103,6 @@ end
 def player_busts?(player_cards, dealer_cards)
   if busted?(player_cards)
     display_result(dealer_cards, player_cards)
-    play_again
   else
     prompt "You stayed at #{total(player_cards)}"
   end
@@ -124,15 +124,14 @@ def busted?(cards)
   total(cards) > 21
 end
 
-# def dealer_busts?(player_cards, dealer_cards)
-#   if busted?(dealer_cards)
-#     prompt "Dealer total is now: #{total(dealer_cards)}"
-#     # display_result(dealer_cards, player_cards)
-#     play_again
-#   else
-#     prompt "Dealer stays at #{total(dealer_cards)}"
-#   end
-# end
+def dealer_busts?(player_cards, dealer_cards)
+  if busted?(dealer_cards)
+    prompt "Dealer total is now: #{total(dealer_cards)}"
+    display_result(dealer_cards, player_cards)
+  else
+    prompt "Dealer stays at #{total(dealer_cards)}"
+  end
+end
 
 # :tie, :dealer, :player, :dealer_busted, :player_busted
 def detect_result(dealer_cards, player_cards)
@@ -162,6 +161,7 @@ def display_result(dealer_cards, player_cards)
   when :dealer        then prompt "Dealer wins!"
   when :tie           then prompt "It's a tie!"
   end
+  sleep(2)
 end
 
 def compare_hands(dealer_cards, player_cards)
@@ -169,6 +169,7 @@ def compare_hands(dealer_cards, player_cards)
   prompt "Dealer has #{dealer_cards}, for a total of: #{total(dealer_cards)}"
   prompt "Player has #{player_cards}, for a total of: #{total(player_cards)}"
   puts "=============="
+  sleep(2)
 end
 
 def valid_answer?(answer)
@@ -203,30 +204,17 @@ loop do
   display_initial_deal(player_cards, dealer_cards)
 
   start_player_turn(deck, player_cards)
-  # player_busts?(player_cards, dealer_cards)
-
-  if busted?(player_cards)
-    display_result(dealer_cards, player_cards)
-    play_again != "n" ? next : break
-  else
-    prompt "You stayed at #{total(player_cards)}"
-  end
+  player_busts?(player_cards, dealer_cards)
+  play_again == "y" ? next : break if busted?(player_cards)
 
   start_dealer_turn(deck, dealer_cards)
-  # dealer_busts?(player_cards, dealer_cards)
+  dealer_busts?(player_cards, dealer_cards)
+  play_again == "y" ? next : break if busted?(dealer_cards)
   
-  if busted?(dealer_cards)
-    prompt "Dealer total is now: #{total(dealer_cards)}"
-    display_result(dealer_cards, player_cards)
-    play_again != "n" ? next : break
-  else
-    prompt "Dealer stays at #{total(dealer_cards)}"
-  end
-
   compare_hands(dealer_cards, player_cards)  
   display_result(dealer_cards, player_cards)
 
-  break if play_again == "n"
+  break if play_again != "y"
 end
 
 display_goodbye
