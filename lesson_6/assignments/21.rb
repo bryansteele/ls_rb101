@@ -193,7 +193,8 @@ end
 def display_goodbye
   prompt "Thank you for playing Twenty-One! Good bye!"
 end
-##########################################################BEGINING#############
+
+# Start
 loop do
   welcome_prompt
   deck = initialize_deck
@@ -205,13 +206,13 @@ loop do
 
   start_player_turn(deck, player_cards)
   player_busts?(player_cards, dealer_cards)
-  play_again == "y" ? next : break if busted?(player_cards)
+  if busted?(player_cards) then play_again == "y" ? next : break end
 
   start_dealer_turn(deck, dealer_cards)
   dealer_busts?(player_cards, dealer_cards)
-  play_again == "y" ? next : break if busted?(dealer_cards)
-  
-  compare_hands(dealer_cards, player_cards)  
+  if busted?(dealer_cards) then play_again == "y" ? next : break end
+
+  compare_hands(dealer_cards, player_cards)
   display_result(dealer_cards, player_cards)
 
   break if play_again != "y"
