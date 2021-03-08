@@ -1,6 +1,6 @@
 WINNING_ROUNDS = 5
-SUITS = %w(H D S C)
-VALUES = %w(2 3 4 5 6 7 8 9 10 J Q K A)
+SUITS = %w(Hearts Diamonds Spades Clubs)
+VALUES = %w(2 3 4 5 6 7 8 9 10 Jack Queen King Ace)
 
 def clear_screen
   system('clear') || system('clr')
@@ -14,11 +14,11 @@ def prompt(msg)
   puts "=> #{msg}"
 end
 
-def start_program(str)
+def start_program
   clear_screen
   display_instructional_greeting
   hit_enter_prompt
-  enter_to_continue(str)
+  enter_to_continue
   clear_screen
 end
 
@@ -30,18 +30,21 @@ def hit_enter_prompt
   display_empty_line
   puts "Press |ENTER ⏎ | to continue."
   display_empty_line
-  display_empty_line
 end
 
 def valid_enter_key?(key)
   key == "\n"
 end
 
-def early_exit(str)
-  str << "YES"
+def early_exit
+  clear_screen
+  prompt "GOOD BYE!"
+  sleep(0.75)
+  clear_screen
+  exit
 end
 
-def enter_to_continue(quit_str)
+def enter_to_continue
   counter = 0
   loop do
     key = gets
@@ -53,7 +56,7 @@ def enter_to_continue(quit_str)
     else
       prompt "EXITING in 2 seconds."
       sleep(2)
-      early_exit(quit_str)
+      early_exit
       break
     end
 
@@ -62,7 +65,7 @@ def enter_to_continue(quit_str)
 end
 
 def initialize_score
-  { player: 0, computer: 0 }
+  { player: 0, dealer: 0 }
 end
 
 def initialize_deck
@@ -77,8 +80,9 @@ def initial_deal(player_cards, dealer_cards, deck)
 end
 
 def display_hands(player_cards, dealer_cards)
-  prompt "Dealer has #{dealer_cards[0]} and ?"
-  prompt "You have: #{player_cards[0]} and #{player_cards[1]}, for a total of #{total(player_cards)}."
+  prompt "Dealer has #{dealer_cards[0]} and ?\n "
+  prompt "You have: #{player_cards[0]} and #{player_cards[1]}, for a total of\
+  #{total(player_cards)}.\n "
 end
 
 def total(cards)
@@ -125,8 +129,8 @@ def retrieve_player_choice
   choice
 end
 
-def player_turn(player_cards, deck)
-  if player_choice == 'h'
+def player_turn(player_cards, deck, choice)
+  if choice == 'h'
     poker_hit(player_cards, deck)
     display_player_hit(player_cards)
   else
@@ -135,13 +139,19 @@ def player_turn(player_cards, deck)
 end
 
 def display_player_hit(player_cards)
-  prompt "You chose to hit!"
-  prompt "Your cards are now: #{player_cards}"
-  prompt "Your total is now: #{total(player_cards)}"
+  clear_screen
+  prompt "You chose to hit!\n "
+  prompt "Your cards are now: #{player_cards}\n "
+  prompt "Your total is now: #{total(player_cards)}\n "
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def display_stay_total(participant, cards)
+  clear_screen
   prompt "You stayed at #{total(cards)}"
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def busted?(cards)
@@ -149,15 +159,20 @@ def busted?(cards)
 end
 
 def dealer_prompt
-  prompt "Dealer turn..."
+  clear_screen
+  prompt "Dealer turn...\n "
 end
 
 def dealer_hit_prompt
-  prompt "Dealer hits!"
+  clear_screen
+  prompt "Dealer hits!\n "
 end
 
 def display_dealer_hand(dealer_cards)
+  sleep(2)
   prompt "Dealer's cards are now: #{dealer_cards}"
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def dealer_turn(dealer_cards, deck)
@@ -175,6 +190,8 @@ def both_participants_stay(dealer_cards, player_cards)
   prompt "Dealer has #{dealer_cards}, for a total of: #{total(dealer_cards)}"
   prompt "Player has #{player_cards}, for a total of: #{total(player_cards)}"
   puts "=============="
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def validate_round_result(player, dealer)
@@ -204,12 +221,14 @@ def display_round_result(result)
   when :tie
     prompt "It's a tie!"
   end
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def set_round_winner(result)
-  if result == :player_busted || :dealer
+  if result == :player_busted || result == :dealer
     :dealer
-  elsif result == :dealer_busted || :player
+  elsif result == :dealer_busted || result == :player
     :player
   end
 end
@@ -223,7 +242,9 @@ def increment_score(round_winner, scores)
 end
 
 def display_incrementing_score(scores)
-  prompt("Your Score: #{scores[:player]} Dealer's Score: #{scores[:dealer]}\n \n ")
+  prompt "Your Score: #{scores[:player]} Dealer's Score: #{scores[:dealer]}\n \n"
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def game_over?(scores)
@@ -242,6 +263,8 @@ end
 
 def display_end_of_game
   prompt "GAME OVER!\n \n"
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def display_grand_winner(winner)
@@ -250,6 +273,8 @@ def display_grand_winner(winner)
   else
     prompt "THE DEALER IS THE GRAND CHAMPION! Better Luck Next Time.\n \n "
   end
+  hit_enter_prompt
+  enter_to_continue
 end
 
 def valid_answer?(answer)
@@ -270,11 +295,10 @@ def play_again
 end
 
 # BEGINNING
-quit_str = ''
-start_program(quit_str)
+start_program
 
 # MAIN LOOP
-while quit_str != "YES"
+loop do
   scoreboard = initialize_score
   deck = initialize_deck
   player_cards = []
@@ -289,7 +313,7 @@ while quit_str != "YES"
 
     loop do
       player_choice = retrieve_player_choice
-      player_turn(player_cards, deck)
+      player_turn(player_cards, deck, player_choice)
       break if player_choice == 's' || busted?(player_cards)
     end
 
