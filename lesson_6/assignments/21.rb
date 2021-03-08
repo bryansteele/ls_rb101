@@ -323,7 +323,7 @@ loop do
     end
 
     both_participants_stay(dealer_cards, player_cards) if !busted?(dealer_cards)
-
+    
     round_result = validate_round_result(dealer_cards, player_cards)
     round_winner = set_round_winner(round_result)
     display_round_result(round_result)
