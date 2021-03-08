@@ -84,12 +84,16 @@ def clear_screen
   system("clear") || system("clr")
 end
 
-def valid_enter_key?(key)
-  key == "\n"
+def early_exit(str)
+  exit if str == "YES"
 end
 
-def exit_game?(str)
+def exit_string(str)
   str << "YES"
+end
+
+def valid_enter_key?(key)
+  key == "\n"
 end
 
 def enter_to_continue(quit_str)
@@ -104,7 +108,7 @@ def enter_to_continue(quit_str)
     else
       prompt "EXITING in 2 seconds."
       sleep(2)
-      exit_game?(quit_str)
+      exit_string(quit_str)
       break
     end
 

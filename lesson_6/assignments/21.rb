@@ -25,9 +25,9 @@ def welcome_prompt
   prompt "Welcome to Twenty-One!"
 end
 
-# def initialize_score
-#   { player: 0, dealer: 0 }
-# end
+def initialize_score
+  { player: 0, dealer: 0 }
+end
 
 def initialize_deck
   SUITS.product(VALUES).shuffle
@@ -84,7 +84,7 @@ def player_hit_or_stay(choice)
   choice
 end
 
-def start_player_turn(deck, player_cards, player_total)
+def start_player_turn(deck, player_cards) #, player_total)
   loop do
     player_turn = []
 
@@ -156,15 +156,25 @@ def detect_result(dealer_cards, player_cards)
   end
 end
 
-# def increment_score(winner, scores)
-  # scores[:player] += 1 if winner[0] == "player"
-  # scores[:dealer] += 1 if winner[0] == "dealer"
-# end
+def set_round_winner(dealer_cards, player_cards, round_winner)
+  case detect_result(dealer_cards, player_cards)
+  when :player_busted then round_winner[0] << :dealer
+  when :dealer_busted then round_winner[0] << :player
+  when :player        then round_winner[0] << :player
+  when :dealer        then round_winner[0] << :dealer
+  end
+
+  # round_winner
+end
+
+def increment_score(winner, scores)
+  scores[:player] += 1 if winner[0] == :player
+  scores[:dealer] += 1 if winner[0] == :dealer
+end
 
 def display_result(dealer_cards, player_cards)
-  result = detect_result(dealer_cards, player_cards)
-
-  case result
+  # result = detect_result(dealer_cards, player_cards)
+  case detect_result(dealer_cards, player_cards)
   when :player_busted then prompt "You busted! Dealer wins!"
   when :dealer_busted then prompt "Dealer busted! You win!"
   when :player        then prompt "You win!"
@@ -174,17 +184,17 @@ def display_result(dealer_cards, player_cards)
   sleep(2)
 end
 
-# def game_over?(scores)
-#   scores[:player] == MAX_WINS || scores:[dealer] == MAX_WINS
-# end
+def game_over?(scores)
+  scores[:player] == MAX_WINS || scores[:dealer] == MAX_WINS
+end
 
-# def establish_grand_winner(scoers)
-#   if scores[:player] == MAX_WINS && scores[:dealer] != MAX_WINS = true
-#   elsif scores[dealer:] == MAX_WINS && scores[:player] != MAX_WINS = false
-#   end
+def establish_grand_winner(scoers)
+  if scores[:player] == MAX_WINS && scores[:dealer] != grand_winner = true
+  elsif scores[:dealer] == MAX_WINS && scores[:player] != grand_winner = false
+  end
 
-#   grand_winner
-# end
+  grand_winner
+end
 
 def compare_hands(dealer_cards, player_cards)
   puts "=============="
@@ -194,16 +204,16 @@ def compare_hands(dealer_cards, player_cards)
   sleep(2)
 end
 
-# def display_grand_winner()
-#   display_solid_line
-#   display_empty_line
-#   if winner
-#     puts "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!".center(50)
-#   else
-#     puts "The dealer is the GRAND CHAMPION!".center(50)
-#     puts "•••Better Luck Next Time•••".center(50)
-#   end
-# end
+def display_grand_winner()
+  display_solid_line
+  display_empty_line
+  if winner
+    puts "YOU ARE the GRAND CHAMPION! CONGRATULATIONS!".center(50)
+  else
+    puts "The dealer is the GRAND CHAMPION!".center(50)
+    puts "•••Better Luck Next Time•••".center(50)
+  end
+end
 
 def valid_answer?(answer)
   %w(y n).include?(answer)
@@ -231,8 +241,8 @@ end
 welcome_prompt
 
 loop do
-  # round_winner = []
-  # score = initialize_score
+  round_winner = []
+  score = initialize_score
   deck = initialize_deck
   player_cards = []
   dealer_cards = []
@@ -242,21 +252,26 @@ loop do
 
   # player_total = total(player_hand)
   # dealer_total = total(dealer_hand)
+    start_player_turn(deck, player_cards)#, player_total)
+    player_busts?(player_cards, dealer_cards)
+    if busted?(player_cards) then play_again == "y" ? next : break end
 
-  start_player_turn(deck, player_cards, player_total)
-  player_busts?(player_cards, dealer_cards)
-  if busted?(player_cards) then play_again == "y" ? next : break end
+    start_dealer_turn(deck, dealer_cards)
+    dealer_busts?(player_cards, dealer_cards)
 
-  start_dealer_turn(deck, dealer_cards)
-  dealer_busts?(player_cards, dealer_cards)
-  if busted?(dealer_cards) then play_again == "y" ? next : break end
-  
-  # increment_score(round_winner, score)
-  compare_hands(dealer_cards, player_cards)
-  display_result(dealer_cards, player_cards)
+    if busted?(dealer_cards) then play_again == "y" ? next : break end
+    
+    set_round_winner(dealer_cards, player_cards, round_winner)
+    increment_score(round_winner, score)
+    compare_hands(dealer_cards, player_cards)
+    display_result(dealer_cards, player_cards)
+    break if game_over?(score)
 
-  # grand_winner = establish_grand_winner(scoreboard)
-  # display_grand_winner(grand_winner)
+
+
+
+  grand_winner = establish_grand_winner(score)
+  display_grand_winner(grand_winner)
   break if play_again != "y"
 end
 
