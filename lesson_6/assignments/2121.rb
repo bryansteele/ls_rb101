@@ -1,6 +1,6 @@
-WINNING_ROUNDS = 5
-SUITS = %w(Hearts Diamonds Spades Clubs)
-VALUES = %w(2 3 4 5 6 7 8 9 10 Jack Queen King Ace)
+WINNING_ROUNDS = 3
+SUITS = %w(H D S C)
+VALUES = %w(2 3 4 5 6 7 8 9 10 J Q K A)
 
 def clear_screen
   system('clear') || system('clr')
@@ -86,21 +86,19 @@ def display_hands(player_cards, dealer_cards)
 end
 
 def total(cards)
-  # cards = [['H', '3'], ['S', 'Q'], ... ]
   values = cards.map { |card| card[1] }
 
   sum = 0
   values.each do |value|
     if value == "A"
       sum += 11
-    elsif value.to_i == 0 # J, Q, K
+    elsif value.to_i == 0
       sum += 10
     else
       sum += value.to_i
     end
   end
 
-  # correct for Aces
   values.select { |value| value == "A" }.count.times do
     sum -= 10 if sum > 21
   end
@@ -138,11 +136,11 @@ def player_turn(player_cards, deck, choice)
   end
 end
 
-def display_player_hit(player_cards)
+def display_player_hit(cards)
   clear_screen
   prompt "You chose to hit!\n "
-  prompt "Your cards are now: #{player_cards}\n "
-  prompt "Your total is now: #{total(player_cards)}\n "
+  prompt "Your cards are now: #{cards}\n "
+  prompt "Your total is now: #{total(cards)}\n "
   hit_enter_prompt
   enter_to_continue
 end
@@ -194,14 +192,16 @@ def both_participants_stay(dealer_cards, player_cards)
   enter_to_continue
 end
 
-def validate_round_result(player, dealer)
-  if player > 21
+def validate_round_result(dealer, player)
+  player_total = total(player)
+  dealer_total = total(dealer)
+  if player_total > 21
     :player_busted
-  elsif dealer > 21
+  elsif dealer_total > 21
     :dealer_busted
-  elsif dealer < player
+  elsif dealer_total < player_total
     :player
-  elsif dealer > player
+  elsif dealer_total > player_total
     :dealer
   else
     :tie
@@ -294,22 +294,20 @@ def play_again
   answer
 end
 
-# BEGINNING
+# START
 start_program
 
 # MAIN LOOP
 loop do
   scoreboard = initialize_score
-  deck = initialize_deck
-  player_cards = []
-  dealer_cards = []
-
-  initial_deal(player_cards, dealer_cards, deck)
-  display_hands(player_cards, dealer_cards)
 
   loop do
-    player_total = total(player_cards)
-    dealer_total = total(dealer_cards)
+    deck = initialize_deck
+    player_cards = []
+    dealer_cards = []
+
+    initial_deal(player_cards, dealer_cards, deck)
+    display_hands(player_cards, dealer_cards)
 
     loop do
       player_choice = retrieve_player_choice
@@ -324,8 +322,9 @@ loop do
       break if busted?(dealer_cards)
     end
 
-    both_participants_stay(dealer_cards, player_cards)
-    round_result = validate_round_result(player_total, dealer_total)
+    both_participants_stay(dealer_cards, player_cards) if !busted?(dealer_cards)
+
+    round_result = validate_round_result(dealer_cards, player_cards)
     round_winner = set_round_winner(round_result)
     display_round_result(round_result)
     increment_score(round_winner, scoreboard)
